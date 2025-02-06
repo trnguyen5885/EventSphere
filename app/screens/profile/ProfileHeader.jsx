@@ -7,7 +7,7 @@ import MaterialCommunityIcons from '@expo/vector-icons/MaterialCommunityIcons';
 
 const ProfileHeader = () => {
   return (
-    <View style={{flex:1}}>
+    <View >
       <View style={styles.profileAVTContainer}>
           <Image style={styles.profileAVT} source={require('../../../assets/images/profileAVT.png')}></Image>
         </View>
@@ -64,7 +64,7 @@ const styles = StyleSheet.create({
         display: 'flex',
         justifyContent: 'center',
         alignItems: 'center',
-        marginTop: 58
+        marginTop: 0
       },
       profileAVT: {
         width: 96,

@@ -1,7 +1,7 @@
 import { StyleSheet, Text, View, Image } from 'react-native'
 import React from 'react'
 import { ButtonComponent, RowComponent, TextComponent } from '@/app/Components'
-import { ScrollView, TouchableOpacity } from 'react-native-gesture-handler'
+import { ScrollView, TouchableOpacity } from 'react-native'
 import Fontisto from '@expo/vector-icons/Fontisto';
 import Ionicons from '@expo/vector-icons/Ionicons';
 import Feather from '@expo/vector-icons/Feather';
@@ -17,10 +17,11 @@ const getRandomColor = () => {
 const ProfileScreen = () => {
   const interest = ["Games Online", "Concert", "Music", "Art", "Movie", "Others"];
   return (
-    <ScrollView>
+    <ScrollView showsVerticalScrollIndicator={true}
+    contentContainerStyle={{ flexGrow: 1 }}>
       <View style={styles.container}>
-       <RowComponent justify='space-between' styles={{width:'100%'}}>
-       <ButtonComponent
+      <View style={styles.backButtonContainer}>
+      <ButtonComponent
           text='Profile'
           textColor='black'
           textStyles={{ fontWeight: 'bold', fontSize: 24 }}
@@ -29,7 +30,7 @@ const ProfileScreen = () => {
           type='primary'
           styles={styles.backButton}
         />
-       </RowComponent>
+      </View>
 
         <ProfileHeader />
 
@@ -46,23 +47,18 @@ const ProfileScreen = () => {
         </View>
         <TextComponent
           text='About Me'
+          textStyles={{ fontWeight: 'bold' }}
           styles={styles.aboutMeTitle} />
         <View style={styles.aboutMeContainer}>
           <View style={styles.aboutMeContentContainer}>
-            <TextComponent
-              text='Enjoy your favorite dishe and a lovely your friends and family and have a great time.
-              Food from local food trucks will be available for purchase.'
-              styles={styles.aboutMeContent}
-            />
-            <View>
-              <ButtonComponent
-                text='Read More.'
-                icon={<Fontisto name="angle-down" size={5} color="#5669FF" />}
-                iconFlex='right'
-                type='link'
-                styles={styles.readMoreBtn}
-              />
-            </View>
+            <Text>
+            Enjoy your favorite dishe and a lovely your friends and family and have a great time.
+             Food from local food trucks will be available for purchase. 
+             <TouchableOpacity style={{flexDirection:'row', alignItems:'center', justifyContent:'center'}}>
+              <Text style={{color:'#5669FF', height:15, alignItems:'center'}}> Read more </Text>
+              <Image source={require('../../../assets/images/Vector10.png')}></Image>
+              </TouchableOpacity>
+            </Text>
           </View>
         </View>
 
@@ -75,7 +71,7 @@ const ProfileScreen = () => {
             />
             <ButtonComponent
               text='CHANGE'
-              textStyles={{ color: '#5669FF' }}
+              textStyles={{ color: '#5669FF', fontSize:10 }}
               icon={<Feather name="edit-3" size={9} color="#5669FF" />}
               iconFlex='left'
               type='primary'
@@ -103,26 +99,31 @@ const ProfileScreen = () => {
 
 const styles = StyleSheet.create({
   container: {
-    width: 375,
+    height: '100%',
+    width: '100%',
     backgroundColor: '#FFFFFF',
     paddingHorizontal: 20,
-    position: 'relative',
+    paddingVertical: 20,
+  },
+  backButtonContainer:{
+    justifyContent: 'flex-start',
+    alignItems: 'flex-start',
+    marginTop: 20,
+    boxShadow: 'none',
+    borderBlockColor:'none'
   },
   backButton: {
-    position: 'absolute',
-    top: 0,
-    left: 0,
     width: 100,
     backgroundColor: "white",
     boxShadow: 'none',
-
+    
   },
   editBtnContainer: {
     display: 'flex',
     alignItems: 'center',
     justifyContent: 'space-evenly',
     flexDirection: 'row',
-    marginTop: 21
+    marginTop:21
   },
   editBtn: {
     width: 154,
@@ -131,9 +132,11 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     flexDirection: 'row',
-    border: '2.5px solid #5669FF',
+    borderWidth:2.5,
+    borderColor: '#5669FF',
     borderRadius: 8,
-    backgroundColor:'white'
+    backgroundColor:'white',
+    paddingVertical:10
   },
   aboutMeContainer: {
     marginTop: 25,
@@ -141,7 +144,7 @@ const styles = StyleSheet.create({
   aboutMeTitle: {
     fontSize: 18,
     lineHeight: 34,
-    fontWeight: '500',
+    fontWeight:'bold'
   },
   aboutMeContent: {
     fontSize: 16,
@@ -164,35 +167,40 @@ const styles = StyleSheet.create({
   },
   interestText: {
     fontSize: 18,
-    lineHeight: 34,
-    fontWeight: '500'
+    fontWeight:'bold'
   },
   changeBtn: {
     width: 'auto',
-    height: 28,
+    minHeight: 10,
     flexDirection: 'row',
     backgroundColor: '#5669FF25',
     alignItems: 'center',
     justifyContent: 'space-around',
     borderRadius: 20,
-    paddingHorizontal: 14,
-    paddingVertical: 8
+    marginBottom:0,
+    paddingBottom:7,
+    paddingTop:7,
+    paddingStart:14,
+    paddingEnd:14
   },
   interestBtnContainer: {
     marginTop: 22,
     flexDirection: 'row',
     flexWrap: 'wrap',
-    justifyContent: 'flex-start',
-    width: '100%',
+    padding:0
 
   },
   interestBtn: {
-    paddingHorizontal: 15,
-    paddingVertical: 7,
+    minHeight:10,
+    minWidth:110,
+    paddingBottom:7,
+    paddingTop:7,
+    paddingStart:15,
+    paddingEnd:15,
     marginRight: 8,
     marginBottom: 8,
     borderRadius: 20,
-
+    
   },
   interestTitle: {
     fontSize: 16,
