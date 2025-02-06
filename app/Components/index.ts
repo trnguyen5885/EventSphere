@@ -4,6 +4,7 @@ import TextComponent from './TextComponent';
 import RowComponent from './RowComponent';
 import SectionComponent from './SectionComponent';
 import InputComponent from './InputComponent';
+import ContainerComponent from './ContainerComponent';
 
 export {
     ButtonComponent,
@@ -11,5 +12,6 @@ export {
     SpaceComponent,
     RowComponent,
     SectionComponent,
-    InputComponent
+    InputComponent,
+    ContainerComponent
 }
