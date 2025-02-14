@@ -27,6 +27,7 @@ interface Props {
 }
 
 const ButtonComponent = (props: Props) => {
+
   const {
     icon,
     text,
@@ -89,4 +90,9 @@ const ButtonComponent = (props: Props) => {
   );
 };
 
+
 export default ButtonComponent;
+
+
+   
+

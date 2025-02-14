@@ -73,7 +73,7 @@ import { globalStyles } from '../constants/globalStyles';
   
     return isImageBackground ? (
       <ImageBackground
-        source={require('../assets/images/splash-img.png')}
+        // source={require('../../assets/images/splash')}
         style={{flex: 1}}
         imageStyle={{flex: 1}}>
         <SafeAreaView style={{flex: 1}}>{headerComponent()}</SafeAreaView>
