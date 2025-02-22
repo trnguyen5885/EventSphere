@@ -103,7 +103,7 @@ const styles = StyleSheet.create({
     width: '100%',
     backgroundColor: '#FFFFFF',
     paddingHorizontal: 20,
-    paddingVertical: 20,
+    paddingVertical: 10,
   },
   backButtonContainer:{
     justifyContent: 'flex-start',
@@ -192,7 +192,7 @@ const styles = StyleSheet.create({
   },
   interestBtn: {
     minHeight:10,
-    minWidth:110,
+    width:'auto',
     paddingBottom:7,
     paddingTop:7,
     paddingStart:15,

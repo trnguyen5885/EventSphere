@@ -96,7 +96,7 @@ const styles = StyleSheet.create({
         display: 'flex',
         justifyContent: 'center',
         alignItems: 'center',
-        width: 61,
+        width: 'auto',
         height: 54,
     
       },

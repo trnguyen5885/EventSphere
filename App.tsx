@@ -34,7 +34,7 @@ const App = () => {
       {/* Container chứa tất cả màn hàn và xử lí chuyển màn hình */}
       <NavigationContainer>
         <Stack.Navigator
-          initialRouteName="Profile" //man hinh mac dinh khi chay
+          initialRouteName="ProfileAbout" //man hinh mac dinh khi chay
           screenOptions={{
             headerShown: false,
           }}>

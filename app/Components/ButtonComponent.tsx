@@ -49,7 +49,7 @@ const ButtonComponent = (props: Props) => {
         onPress={onPress}
         style={[
           globalStyles.button,
-          globalStyles.shadow,
+          // globalStyles.shadow,
           {
             backgroundColor: color
               ? color
