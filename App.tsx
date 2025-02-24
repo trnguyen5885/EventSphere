@@ -34,7 +34,7 @@ const App = () => {
       {/* Container chứa tất cả màn hàn và xử lí chuyển màn hình */}
       <NavigationContainer>
         <Stack.Navigator
-          initialRouteName="Welcome"
+          initialRouteName="Register"
           screenOptions={{
             headerShown: false,
           }}>
