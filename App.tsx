@@ -41,6 +41,9 @@ const App = () => {
       <NavigationContainer>
         <Stack.Navigator
           initialRouteName="BottomTab"
+
+          initialRouteName="Register"
+
           screenOptions={{
             headerShown: false,
           }}>
