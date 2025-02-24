@@ -7,6 +7,10 @@ import SectionComponent from './SectionComponent';
 import ContainerComponent from './ContainerComponent';
 import CircleComponent from './CircleComponent';
 
+import CardComponent from './CardComponent';
+import CategoriesList from './CategoriesList';
+
+
 export {
     ButtonComponent,
     TextComponent,
@@ -15,5 +19,7 @@ export {
     RowComponent,
     SectionComponent,
     ContainerComponent,
-    CircleComponent
+    CircleComponent,
+    CardComponent,
+    CategoriesList
 }
