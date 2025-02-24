@@ -176,6 +176,7 @@ const styles = StyleSheet.create({
       },
       detailSubtitle: {
         color: appColors.white2,
+        maxWidth: 350,
         marginTop: 2,
       },
       
