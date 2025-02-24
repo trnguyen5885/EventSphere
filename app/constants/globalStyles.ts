@@ -5,8 +5,6 @@ export const globalStyles = StyleSheet.create({
     container: {
         flex: 1,
         backgroundColor: appColors.white,
-        alignItems: 'center', 
-        justifyContent: 'center',
     },
     text:{
         fontSize: 14,
@@ -46,4 +44,18 @@ export const globalStyles = StyleSheet.create({
         shadowRadius: 8,
         elevation: 6
     },
+    tag: {
+        paddingHorizontal: 20,
+        paddingVertical: 10,
+        backgroundColor: appColors.white,
+        borderRadius: 100,
+        marginRight: 12,
+      },
+      card: {
+        padding: 12,
+        borderRadius: 12,
+        backgroundColor: appColors.white,
+        margin: 12,
+      },
+    
 })
