@@ -1,35 +1,43 @@
-import { StyleSheet, Text, View } from 'react-native'
-import React, { useEffect, useState } from 'react'
-import authenticationAPI from '@/app/apis/authApi/authenticationAPI';
-import AsyncStorage from '@react-native-async-storage/async-storage';
-import { ButtonComponent, ContainerComponent, InputComponent, RowComponent, SectionComponent, SpaceComponent, TextComponent } from '@/app/Components';
-import { Lock, Sms, User } from 'iconsax-react-native';
-import { appColors } from '@/app/constants/appColors';
-import SocialLogin from './Components/SocialLogin';
-import LoadingModal from '@/app/modals/LoadingModal';
-import { Validate } from '@/app/utils/Validate';
+import { StyleSheet, Text, View } from "react-native";
+import React, { useEffect, useState } from "react";
+import authenticationAPI from "@/app/apis/authApi/authenticationAPI";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import {
+  ButtonComponent,
+  ContainerComponent,
+  InputComponent,
+  RowComponent,
+  SectionComponent,
+  SpaceComponent,
+  TextComponent,
+} from "@/app/components";
+import { Lock, Sms, User } from "iconsax-react-native";
+import { appColors } from "@/app/constants/appColors";
+import SocialLogin from "./Components/SocialLogin";
+import LoadingModal from "@/app/modals/LoadingModal";
+import { Validate } from "@/app/utils/Validate";
 
 const initValue = {
-  username: '',
-  email: '',
-  password: '',
-  confirmPassword: '',
-  role: 3
+  username: "",
+  email: "",
+  password: "",
+  confirmPassword: "",
+  role: 3,
 };
 
-const RegisterScreen = ({navigation}:any) => {
+const RegisterScreen = ({ navigation }: any) => {
   const [values, setValues] = useState(initValue);
   const [isLoading, setIsLoading] = useState(false);
   const [errorMessage, setErrorMessage] = useState<any>();
 
   useEffect(() => {
-    if(values.email || values.password){
-      setErrorMessage('');
+    if (values.email || values.password) {
+      setErrorMessage("");
     }
   }, [values.email, values.password]);
 
   const handleChangeValue = (key: string, value: string) => {
-    const data: any = {...values};
+    const data: any = { ...values };
 
     data[`${key}`] = value;
 
@@ -43,7 +51,7 @@ const RegisterScreen = ({navigation}:any) => {
 
   const handleRegister = async () => {
     const errors = validateForm();
-    
+
     if (Object.keys(errors).length > 0) {
       setErrorMessage(errors);
       return;
@@ -51,17 +59,20 @@ const RegisterScreen = ({navigation}:any) => {
 
     setIsLoading(true);
     try {
-      const res = await authenticationAPI.HandleAuthentication('/register', values, 'post');
-      if(res.status === 200 || res.status === 201){
-        await AsyncStorage.setItem('auth', JSON.stringify(res.data));
-        alert('Registration successful! Redirecting to login screen...');
-        navigation.navigate('Login');
+      const res = await authenticationAPI.HandleAuthentication(
+        "/register",
+        values,
+        "post",
+      );
+      if (res.status === 200 || res.status === 201) {
+        await AsyncStorage.setItem("auth", JSON.stringify(res.data));
+        alert("Registration successful! Redirecting to login screen...");
+        navigation.navigate("BottomTab");
       }
-      if(res.status === 400){
-        alert('Email exist!');
+      if (res.status === 400) {
+        alert("Email exist!");
       }
     } catch (error) {
-
     } finally {
       setIsLoading(false);
     }
@@ -76,23 +87,24 @@ const RegisterScreen = ({navigation}:any) => {
           <InputComponent
             value={values.username}
             placeholder="Username"
-            onChange={val => handleChangeValue('username', val)}
+            onChange={val => handleChangeValue("username", val)}
             allowClear
             affix={<User size={22} color={appColors.gray} />}
           />
           <InputComponent
             value={values.email}
             placeholder="@abc@gmail.com"
-            onChange={val => handleChangeValue('email', val)}
+            onChange={val => handleChangeValue("email", val)}
             allowClear
             affix={<Sms size={22} color={appColors.gray} />}
-            onEnd={()=>
-              setErrorMessage({ ...errorMessage, email: 'Email không hợp lệ' })}
+            onEnd={() =>
+              setErrorMessage({ ...errorMessage, email: "Email không hợp lệ" })
+            }
           />
           <InputComponent
             value={values.password}
             placeholder="Password"
-            onChange={val => handleChangeValue('password', val)}
+            onChange={val => handleChangeValue("password", val)}
             isPassword
             allowClear
             affix={<Lock size={22} color={appColors.gray} />}
@@ -100,45 +112,52 @@ const RegisterScreen = ({navigation}:any) => {
           <InputComponent
             value={values.confirmPassword}
             placeholder="Confirm Password"
-            onChange={val => handleChangeValue('confirmPassword', val)}
+            onChange={val => handleChangeValue("confirmPassword", val)}
             isPassword
             allowClear
             affix={<Lock size={22} color={appColors.gray} />}
           />
-
         </SectionComponent>
 
         {errorMessage && (
           <SectionComponent>
-            {
-              Object.keys(errorMessage).map((error, index) => (
-              <TextComponent 
+            {Object.keys(errorMessage).map((error, index) => (
+              <TextComponent
                 text={errorMessage[`${error}`]}
-                key={`error${index}`} 
-                color={appColors.danger} />
+                key={`error${index}`}
+                color={appColors.danger}
+              />
             ))}
           </SectionComponent>
         )}
 
         <SpaceComponent height={16} />
         <SectionComponent>
-          <ButtonComponent onPress={handleRegister} text="SIGN UP" type='primary' />
+          <ButtonComponent
+            onPress={handleRegister}
+            text="SIGN UP"
+            type="primary"
+          />
         </SectionComponent>
 
         <SocialLogin />
-        
+
         <SectionComponent>
           <RowComponent justify="center">
             <TextComponent text="Don't have an account?" />
-            <ButtonComponent type="link" text="Sign up" onPress={() => navigation.navigate('Login')} />
+            <ButtonComponent
+              type="link"
+              text="Sign up"
+              onPress={() => navigation.navigate("Login")}
+            />
           </RowComponent>
         </SectionComponent>
         <LoadingModal visible={isLoading} />
       </ContainerComponent>
     </>
   );
-}
+};
 
-export default RegisterScreen
+export default RegisterScreen;
 
-const styles = StyleSheet.create({})
+const styles = StyleSheet.create({});
