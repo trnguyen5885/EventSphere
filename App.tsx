@@ -5,8 +5,10 @@ import { GestureHandlerRootView } from "react-native-gesture-handler";
 import { NavigationContainer } from "@react-navigation/native";
 import { createStackNavigator } from "@react-navigation/stack";
 import { WelcomeScreen, LoginScreen, RegisterScreen } from "./app/screens";
+import { createNativeStackNavigator } from "@react-navigation/native-stack";
+import TabNavigator from "./app/navigation/TabNavigator";
 
-const Stack = createStackNavigator();
+const Stack = createNativeStackNavigator();
 
 const App = () => {
   // Thêm font
@@ -39,6 +41,7 @@ const App = () => {
           <Stack.Screen name="Welcome" component={WelcomeScreen} />
           <Stack.Screen name="Login" component={LoginScreen} />
           <Stack.Screen name="Register" component={RegisterScreen} />
+          <Stack.Screen name="BottomTab" component={TabNavigator} />
         </Stack.Navigator>
       </NavigationContainer>
     </GestureHandlerRootView>
