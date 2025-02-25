@@ -1,20 +1,34 @@
-import { StyleSheet, Text, View } from "react-native";
-import React from "react";
+import {
+  ImageBackground,
+  Image,
+  StyleSheet,
+  Text,
+  View,
+  Dimensions,
+  ActivityIndicator,
+} from "react-native";
+import React, { useEffect } from "react";
+import { globalStyles } from "@/app/constants/globalStyles";
+import { SpaceComponent } from "@/app/Components";
+import { appColors } from "@/app/constants/appColors";
 
 const WelcomeScreen = () => {
   return (
-    <View style={styles.container}>
-      <Text>Welcome Screen</Text>
-    </View>
+    <ImageBackground
+      style={globalStyles.container}
+      source={require("../../../assets/images/splash-img.png")}
+      imageStyle={{ flex: 1 }}>
+      <Image
+        source={require("../../../assets/images/logo.png")}
+        style={{
+          width: Dimensions.get("window").width * 0.7,
+          resizeMode: "contain",
+        }}
+      />
+      <SpaceComponent height={20} />
+      <ActivityIndicator color={appColors.gray} size={22} />
+    </ImageBackground>
   );
 };
 
 export default WelcomeScreen;
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    justifyContent: "center",
-    alignItems: "center",
-  },
-});
