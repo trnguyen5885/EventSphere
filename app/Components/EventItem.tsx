@@ -29,7 +29,7 @@ const EventItem = (props: Props) => {
           objectFit: "cover",
           borderRadius: 15,
         }}
-        source={{ uri: item.images[0] }}
+        source={{ uri: item.avatar }}
       />
       <TextComponent
         numberOfLine={2}
