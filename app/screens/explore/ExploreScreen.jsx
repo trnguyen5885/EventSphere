@@ -8,6 +8,7 @@ import {
   Text,
   TouchableOpacity,
   View,
+  Image
 } from "react-native";
 import React, { useEffect, useState } from "react";
 import { globalStyles } from "@/app/constants/globalStyles";
@@ -29,20 +30,30 @@ import { fontFamilies } from "@/app/constants/fontFamilies";
 import CategoriesList from "@/app/components/CategoriesList";
 import EventItem from "@/app/components/EventItem";
 import { AxiosInstance } from "@/app/services";
+import LoadingModal from "@/app/modals/LoadingModal";
+import BannerComponent from "./components/BannerComponent";
 
 const ExploreScreen = ({navigation}) => {
   const [eventsIscoming, setEventsIscoming] = useState([]);
   const [eventsUpcoming, setEventsUpcoming] = useState([]);
+  const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {
+    setIsLoading(true);
     const getEvents = async () => {
-      const response = await AxiosInstance().get("events/all");
-      const now = Date.now();
-
-      const ongoingEvents = response.data.filter(eventItem => now >= eventItem.timeStart && now <= eventItem.timeEnd);
-      setEventsIscoming(ongoingEvents)
-      const upcomingEvents = response.data.filter(eventItem => eventItem.timeStart > now);
-      setEventsUpcoming(upcomingEvents);
+      try { 
+        const response = await AxiosInstance().get("events/all");
+        const now = Date.now();
+        const ongoingEvents = response.data.filter(eventItem => now >= eventItem.timeStart && now <= eventItem.timeEnd);
+        setEventsIscoming(ongoingEvents)
+        const upcomingEvents = response.data.filter(eventItem => eventItem.timeStart > now);
+        setEventsUpcoming(upcomingEvents);
+        setIsLoading(false);
+      } catch(e) {
+        console.log(e)
+      } finally {
+        setIsLoading(false)
+      }
 
     };
     getEvents();
@@ -52,12 +63,16 @@ const ExploreScreen = ({navigation}) => {
     };
   }, []);
 
+  if(isLoading) {
+    return <LoadingModal />
+  }
+
   
 
   
 
   return (
-    <ScrollView nestedScrollEnabled style={globalStyles.container}>
+    <ScrollView showsVerticalScrollIndicator={false} nestedScrollEnabled style={globalStyles.container}>
       <StatusBar
         barStyle={"light-content"}
         backgroundColor={appColors.primary}
@@ -119,7 +134,9 @@ const ExploreScreen = ({navigation}) => {
           </RowComponent>
           <SpaceComponent height={24} />
           <RowComponent>
-            <RowComponent styles={{ flex: 1 }}>
+            <RowComponent onPress={() => {
+              navigation.navigate("Search")
+            }} styles={{ flex: 1 }}>
               <SearchNormal1
                 variant="TwoTone"
                 size={22}
@@ -157,14 +174,20 @@ const ExploreScreen = ({navigation}) => {
       </View>
       <ScrollView
         nestedScrollEnabled
+        showsVerticalScrollIndicator={false}
         style={[
           {
             flex: 1,
-            paddingTop: 40,
-            paddingHorizontal: 12,
+            paddingTop: 25,
           },
         ]}>
-        <View style={[globalStyles.row, { marginTop: 15, justifyContent: "space-between" }]}>
+
+          <BannerComponent bannerData={eventsIscoming} /> 
+       
+            
+          
+        
+        <View style={[globalStyles.row, styles.paddingContent  ,{ marginTop: 15, justifyContent: "space-between" }]}>
           <TextComponent text="Sự kiện đang diễn ra" size={18} title />
           <RowComponent onPress={() => {}}>
             <TextComponent text="Xem thêm" size={16} color={appColors.gray} />
@@ -184,7 +207,7 @@ const ExploreScreen = ({navigation}) => {
           }} type="card" item={item} />}
         />
 
-        <View style={[globalStyles.row, { marginTop: 15, justifyContent: "space-between" }]}>
+        <View style={[globalStyles.row, styles.paddingContent, { marginTop: 15, justifyContent: "space-between" }]}>
           <TextComponent text="Sự kiện sắp diễn ra" size={18} title />
           <RowComponent onPress={() => {}}>
             <TextComponent text="Xem thêm" size={16} color={appColors.gray} />
@@ -210,4 +233,8 @@ const ExploreScreen = ({navigation}) => {
 
 export default ExploreScreen;
 
-const styles = StyleSheet.create({});
+const styles = StyleSheet.create({
+  paddingContent: {
+    paddingHorizontal: 12,
+  }
+});

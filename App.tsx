@@ -47,9 +47,11 @@ const App = () => {
           screenOptions={{
             headerShown: false,
           }}>
-          <Stack.Screen name="Login" component={LoginScreen} />
-          <Stack.Screen name="Register" component={RegisterScreen} />
+          {/* <Stack.Screen name="Login" component={LoginScreen} />
+          <Stack.Screen name="Register" component={RegisterScreen} /> */}
           <Stack.Screen name="BottomTab" component={TabNavigator} />
+          <Stack.Screen name="Category" component={EventCategoryScreen} />
+          <Stack.Screen name="Search" component={EventSearchScreen} />
           <Stack.Screen name="Detail" component={EventDetailScreen} />
           <Stack.Screen name="Ticket" component={TicketEventScreen} />
           <Stack.Screen name="Payment" component={PaymentScreen} />

@@ -7,6 +7,7 @@ import {
   ScrollView,
   StyleSheet,
   SafeAreaView,
+  Platform
 } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import { CardComponent, RowComponent } from '@/app/components';
@@ -159,6 +160,50 @@ const TicketEventScreen = ({navigation, route}) => {
               shadowRadius: 3.84,
               elevation: 5,
            }}>
+    
+      return (
+        <View style={[globalStyles.container]}>
+            <View style={styles.header}>
+                <RowComponent onPress={handleNavigation}  styles = {{columnGap: 25}}>
+                    <Ionicons name="chevron-back" size={26} color="white" />
+                    <Text style = {styles.headerTitle} >Thanh toán</Text>
+                </RowComponent>
+            </View>
+        
+          <ScrollView>
+            {/* Event Information */}
+            
+             <CardComponent styles = {{
+                shadowColor: '#000',
+                shadowOffset: {
+                  width: 0,
+                  height: 2,
+                },
+                shadowOpacity: 0.25,
+                shadowRadius: 3.84,
+                elevation: 5,
+             }}>
+             <Text style={styles.title}>Thông tin sự kiện</Text>
+                <View style={styles.eventInfo}>
+                    <Text style={styles.eventName}>{eventInfo.name}</Text>
+                    <Text style={styles.eventDetail}>Ngày: {`${formatDate(eventInfo.timeStart)} - ${formatDate(eventInfo.timeEnd)} `}</Text>
+                    <Text style={styles.eventDetail}>Thời gian: {eventInfo.time}</Text>
+                    <Text style={styles.eventDetail}>Địa điểm: {eventInfo.location}</Text>
+                </View>
+             </CardComponent>
+            
+    
+            {/* Personal Information */}
+            <CardComponent styles = {{
+                shadowColor: '#000',
+                shadowOffset: {
+                  width: 0,
+                  height: 2,
+                },
+                shadowOpacity: 0.25,
+                shadowRadius: 3.84,
+                elevation: 5,
+             }}>
 
               <Text style={styles.title}>Thông tin cá nhân</Text>
               <TextInput
@@ -284,6 +329,9 @@ const TicketEventScreen = ({navigation, route}) => {
         </ScrollView>
       </SafeAreaView>
     );
+          </ScrollView>
+        </View>
+      );
 }
 
 export default TicketEventScreen
@@ -293,20 +341,18 @@ const styles = StyleSheet.create({
         flex: 1,
         backgroundColor: '#f5f5f5',
       },
-      header: 
-      {
-              flexDirection: 'row',
-              alignItems: "center",
-              justifyContent: 'space-between',
-              padding: 12,
-              backgroundColor: appColors.primary
-            },
-            headerTitle: {
-              color: appColors.white2,
-              fontSize: 22,
-              fontWeight: "500"
-          
-            },
+      header: {
+       flexDirection: 'row',
+       alignItems: "center",
+       justifyContent: 'space-between',
+       padding: 12,
+       backgroundColor: appColors.primary,
+       paddingTop: Platform.OS === "ios" ? 66 : 22
+      },     
+      headerTitle: {
+      color: appColors.white2,
+      fontSize: 22,
+      fontWeight: "500" },
       card: {
         backgroundColor: 'white',
         margin: 16,

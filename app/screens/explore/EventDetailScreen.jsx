@@ -9,6 +9,7 @@ import {
   StatusBar,
   ScrollView,
   ImageBackground,
+  Platform,
 } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import { AxiosInstance } from '@/app/services';
@@ -21,7 +22,6 @@ import { formatPrice } from '@/app/services/utils/price';
 const EventDetailScreen = ({navigation , route}) => {
     const { id } = route.params;
     const [detailEvent, setDetailEvent] = useState({
-      "__v": 0,
       "_id": "",
       "avatar": "",
       "banner": "",
@@ -34,7 +34,7 @@ const EventDetailScreen = ({navigation , route}) => {
       "ticketQuantity": 0,
       "timeEnd": 0,
       "timeStart": 0,
-      "location": "SECC, Quận 7, TP.HCM"
+      "location": ""
     });
 
     const handleNavigation = () => {
@@ -42,11 +42,13 @@ const EventDetailScreen = ({navigation , route}) => {
     }
 
     useEffect(() => {
-
         const getDetailEvent = async () => {
+           try {
             const response = await AxiosInstance().get(`events/detail/${id}`);
             setDetailEvent(response.data)
-        
+           } catch(e) {
+            console.log(e)
+           }
         }
 
         getDetailEvent();
@@ -59,9 +61,10 @@ const EventDetailScreen = ({navigation , route}) => {
 
 
   return (
-    <SafeAreaView style={[globalStyles.container]}>
+    <View style={[globalStyles.container]}>
         <View style={styles.header}>
-         
+
+            <StatusBar animated backgroundColor={appColors.primary} />
             <RowComponent  onPress={handleNavigation} styles = {{columnGap: 25}}>
                 <Ionicons name="chevron-back" size={26} color="white" />
             
@@ -84,12 +87,12 @@ const EventDetailScreen = ({navigation , route}) => {
                 <View style = {styles.containerEventDetailInfo}>
                  <TextComponent text={detailEvent.name} size={16} styles = {{paddingVertical: 5,color: appColors.white2, fontWeight: "bold"}} />
                       <View style={styles.detailRow}>
-                            <Ionicons name="calendar" size={18} color={appColors.primary} />
+                            <Ionicons name="calendar" size={22} color={appColors.primary} />
                               <Text style = {styles.detailSubtitle}>{`${formatDate(detailEvent.timeStart)} - ${formatDate(detailEvent.timeEnd)} `}</Text>
                       </View>
 
                       <View style={styles.detailRow}>
-                            <Ionicons name="location" size={18} color={appColors.primary} />
+                            <Ionicons name="location" size={22} color={appColors.primary} />
                             <View>
                               <Text style={styles.detailSubtitle}>{detailEvent.location}</Text>
                             </View>
@@ -116,7 +119,7 @@ const EventDetailScreen = ({navigation , route}) => {
                 <Ionicons name="arrow-forward" size={20} color={appColors.primary} />
               </CircleComponent>} iconFlex="right" />
             </View>
-    </SafeAreaView>
+    </View>
   )
 }
 
@@ -128,13 +131,13 @@ const styles = StyleSheet.create({
         alignItems: "center",
         justifyContent: 'space-between',
         padding: 12,
-        backgroundColor: appColors.primary
+        backgroundColor: appColors.primary,
+        paddingTop: Platform.OS === "ios" ? 66 : 22
       },
       headerTitle: {
         color: appColors.white2,
         fontSize: 22,
         fontWeight: "500"
-    
       },
       body: {
         flex: 1,
@@ -176,8 +179,11 @@ const styles = StyleSheet.create({
       },
       detailSubtitle: {
         color: appColors.white2,
-        maxWidth: 350,
+
+        maxWidth: 335,
+        lineHeight: 26,
         marginTop: 2,
+      
       },
       
       aboutSection: {
