@@ -10,8 +10,10 @@ import {
   RegisterScreen,
   EventDetailScreen,
   TicketEventScreen,
-  EventCategoryScreen,
-  EventSearchScreen,
+  PaymentScreen,
+  NotificationScreen,
+  UserTicketsScreen,
+  ListTicket,
 } from "./app/screens";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import TabNavigator from "./app/navigation/TabNavigator";
@@ -52,6 +54,10 @@ const App = () => {
           <Stack.Screen name="Search" component={EventSearchScreen} />
           <Stack.Screen name="Detail" component={EventDetailScreen} />
           <Stack.Screen name="Ticket" component={TicketEventScreen} />
+          <Stack.Screen name="Payment" component={PaymentScreen} />
+          <Stack.Screen name="Notification" component={NotificationScreen} />
+          <Stack.Screen name="UserTickets" component={UserTicketsScreen} />
+          <Stack.Screen name="ListTicket" component={ListTicket} />
         </Stack.Navigator>
       </NavigationContainer>
     </GestureHandlerRootView>

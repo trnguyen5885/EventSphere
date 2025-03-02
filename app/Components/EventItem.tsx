@@ -7,7 +7,7 @@ import {
   ViewStyle,
 } from "react-native";
 import React from "react";
-import { CardComponent, TextComponent } from "../components";
+import { CardComponent, TextComponent } from ".";
 import { appColors } from "../constants/appColors";
 import MaterialIcons from "@expo/vector-icons/MaterialIcons";
 import { formatDate } from "../services";

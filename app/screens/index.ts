@@ -10,7 +10,9 @@ import EventCategoryScreen from "./explore/EventCategoryScreen"
 import EventDetailScreen from "./explore/EventDetailScreen"
 import EventSearchScreen from "./explore/EventSearchScreen"
 import TicketEventScreen from "./ticket/TicketEventScreen"
-
+import PaymentScreen from './payment/PaymentScreen'
+import UserTicketsScreen from './ticket/UserTicketsScreen'
+import ListTicket from './ticket/ListTicket'
 
 export {
   WelcomeScreen,
@@ -24,5 +26,8 @@ export {
   EventDetailScreen,
   TicketEventScreen,
   EventCategoryScreen,
-  EventSearchScreen
+  EventSearchScreen,
+  PaymentScreen,
+  UserTicketsScreen,
+  ListTicket
   }
