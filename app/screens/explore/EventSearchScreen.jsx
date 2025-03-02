@@ -23,7 +23,7 @@ const EventSearch = ({navigation}) => {
     
     const getEventSearch = async () => {
       try {
-        const response = await AxiosInstance().get("events/all");
+        const response = await AxiosInstance().get(`events/search?query=${values}`);
         setEventsSearch(response.data)
       } catch(e) {
         console.log(e)
@@ -35,7 +35,7 @@ const EventSearch = ({navigation}) => {
     return () => {
       setEventsSearch([]);
     }
-  },[])
+  },[values])
 
   return (
     <View style={[globalStyles.container]} >
@@ -50,6 +50,7 @@ const EventSearch = ({navigation}) => {
               <InputComponent
                 value={values}
                 onChange={(text) => setValues(text)}
+                placeholder='Nhập từ khoá...'
                 allowClear
                 customStyles={{minHeight: 46}}
                 affix={<MaterialIcons name="search" size={24} color="rgba(0,0,0,0.5)" />}
