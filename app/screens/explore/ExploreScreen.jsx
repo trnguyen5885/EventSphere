@@ -92,7 +92,7 @@ const ExploreScreen = ({navigation}) => {
                 size={13}
               />
             </View>
-
+            <TouchableOpacity onPress={()=>navigation.navigate("Notification")}>
             <CircleComponent color="#524CE0" size={36}>
               <View>
                 <MaterialIcons
@@ -115,6 +115,7 @@ const ExploreScreen = ({navigation}) => {
                 />
               </View>
             </CircleComponent>
+            </TouchableOpacity>
           </RowComponent>
           <SpaceComponent height={24} />
           <RowComponent>

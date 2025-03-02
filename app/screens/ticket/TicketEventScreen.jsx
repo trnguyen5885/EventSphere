@@ -15,246 +15,275 @@ import { globalStyles } from '@/app/constants/globalStyles';
 import { AxiosInstance } from '@/app/services';
 import { formatDate } from "@/app/services/index";
 
-
-
 const TicketEventScreen = ({navigation, route}) => {
 
-    const { id } = route.params;
+  const { id } = route.params;
 
-    const [eventInfo, setEventInfo] = useState({
-        name: "",
-        timeStart: 0,
-        timeEnd: 0,
-        location: "",
-        ticketPrice: 0,
+  const [eventInfo, setEventInfo] = useState({
+      name: "",
+      timeStart: 0,
+      timeEnd: 0,
+      location: "",
+      ticketPrice: 0,
+  });
+  const [formData, setFormData] = useState({
+      fullName: '',
+      phone: '',
+      email: '',
+      tickets: {
+        normal: 0,
+        vip: 0
+      },
+      paymentMethod: ''
     });
-    const [formData, setFormData] = useState({
-        fullName: '',
-        phone: '',
-        tickets: {
-          normal: 0,
-          vip: 0
-        },
-        paymentMethod: ''
-      });
 
-      const ticketTypes = {
-        normal: {
-          name: 'Vé Thường',
-          price: eventInfo.ticketPrice,
-        },
-        vip: {
-          name: 'Vé VIP',
-          price: eventInfo.ticketPrice * 2,
-        }
-      };
-
-
-    useEffect(() => {
-
-        const getInfoEvent = async () => {
-            const response = await AxiosInstance().get(`events/detail/${id}`)
-            setEventInfo(response.data);
-        }
-
-        getInfoEvent();
-
-
-        return () => {
-            setEventInfo(null)
-        }
-    }, [])
-    
-      const updateTicketQuantity = (type, change) => {
-        const newQuantity = formData.tickets[type] + change;
-        if (newQuantity >= 0 && newQuantity <= 10) {
-          setFormData({
-            ...formData,
-            tickets: {
-              ...formData.tickets,
-              [type]: newQuantity
-            }
-          });
-        }
-      };
-    
-      const calculateTotal = () => {
-        return (formData.tickets.normal * ticketTypes.normal.price) +
-               (formData.tickets.vip * ticketTypes.vip.price);
-      };
-    
-      const isFormValid = () => {
-        return formData.fullName.trim() !== '' &&
-               formData.phone.trim() !== '' &&
-               (formData.tickets.normal > 0 || formData.tickets.vip > 0) &&
-               formData.paymentMethod !== '';
-      };
-
-      const handleNavigation = () => {
-        navigation.goBack();
+    const ticketTypes = {
+      normal: {
+        name: 'Vé Thường',
+        price: eventInfo ? eventInfo.ticketPrice : 0,
+      },
+      vip: {
+        name: 'Vé VIP',
+        price: eventInfo ? eventInfo.ticketPrice * 2 : 0,
       }
-    
-      return (
-        <SafeAreaView style={[globalStyles.container]}>
-            <View style={styles.header}>
-                <RowComponent onPress={handleNavigation}  styles = {{columnGap: 25}}>
-                    <Ionicons name="chevron-back" size={26} color="white" />
-                    <Text style = {styles.headerTitle} >Thanh toán</Text>
-                </RowComponent>
-            </View>
-        
-          <ScrollView>
-            {/* Event Information */}
-            
-             <CardComponent styles = {{
-                shadowColor: '#000',
-                shadowOffset: {
-                  width: 0,
-                  height: 2,
-                },
-                shadowOpacity: 0.25,
-                shadowRadius: 3.84,
-                elevation: 5,
-             }}>
-             <Text style={styles.title}>Thông tin sự kiện</Text>
-                <View style={styles.eventInfo}>
-                    <Text style={styles.eventName}>{eventInfo.name}</Text>
-                    <Text style={styles.eventDetail}>Ngày: {`${formatDate(eventInfo.timeStart)} - ${formatDate(eventInfo.timeEnd)} `}</Text>
-                    <Text style={styles.eventDetail}>Thời gian: {eventInfo.time}</Text>
-                    <Text style={styles.eventDetail}>Địa điểm: {eventInfo.location}</Text>
-                </View>
-             </CardComponent>
-            
-    
-            {/* Personal Information */}
-            <CardComponent styles = {{
-                shadowColor: '#000',
-                shadowOffset: {
-                  width: 0,
-                  height: 2,
-                },
-                shadowOpacity: 0.25,
-                shadowRadius: 3.84,
-                elevation: 5,
-             }}>
+    };
 
-                <Text style={styles.title}>Thông tin cá nhân</Text>
-                <TextInput
-                    style={styles.input}
-                    placeholder="Họ và tên"
-                    value={formData.fullName}
-                    onChangeText={(text) => setFormData({...formData, fullName: text})}
-                />
-                <TextInput
-                    style={styles.input}
-                    placeholder="Số điện thoại"
-                    keyboardType="phone-pad"
-                    value={formData.phone}
-                    onChangeText={(text) => setFormData({...formData, phone: text})}
-                />
-             </CardComponent>
-              
+
+  useEffect(() => {
+
+      const getInfoEvent = async () => {
+          const response = await AxiosInstance().get(`events/detail/${id}`)
+          setEventInfo(response.data);
+      }
+
+      getInfoEvent();
+
+      return () => {
+          setEventInfo(null)
+      }
+  }, [])
+  
+    const updateTicketQuantity = (type, change) => {
+      const newQuantity = formData.tickets[type] + change;
+      if (newQuantity >= 0 && newQuantity <= 10) {
+        setFormData({
+          ...formData,
+          tickets: {
+            ...formData.tickets,
+            [type]: newQuantity
+          }
+        });
+      }
+    };
+  
+    const calculateTotal = () => {
+      return (formData.tickets.normal * ticketTypes.normal.price) +
+             (formData.tickets.vip * ticketTypes.vip.price);
+    };
+  
+    const isFormValid = () => {
+      return formData.fullName.trim() !== '' &&
+             formData.phone.trim() !== '' &&
+             (formData.tickets.normal > 0 || formData.tickets.vip > 0) &&
+             formData.paymentMethod !== '';
+    };
+
+    const handleNavigation = () => {
+      navigation.goBack();
+    }
+  
+    const confirmOrder = async() =>{
+      console.log("Event id: " + id, "User id: " + "6773f10819073b07dc2f9e3d" );
+      try{
+        const body = {
+          eventId: id,
+          userId: "6773f10819073b07dc2f9e3d",
+          amount: formData.tickets.normal
+        }
+        const createOrder = await AxiosInstance().post("orders/createOrder", body);
+        console.log(formData.tickets.normal);
+        const totalAmount = calculateTotal();
+        navigation.navigate("Payment",{
+          id: createOrder.data,
+          total: totalAmount,
+        });
+      }catch(e){
+        console.log("Tạo đơn hàng thất bại " + e)
+      }
+    }
+
+    return (
+      <SafeAreaView style={[globalStyles.container]}>
+          <View style={styles.header}>
+              <RowComponent onPress={handleNavigation}  styles = {{columnGap: 25}}>
+                  <Ionicons name="chevron-back" size={26} color="white" />
+                  <Text style = {styles.headerTitle} >Thanh toán</Text>
+              </RowComponent>
+          </View>
+      
+        <ScrollView>
+          {/* Event Information */}
+          
+           <CardComponent styles = {{
+              shadowColor: '#000',
+              shadowOffset: {
+                width: 0,
+                height: 2,
+              },
+              shadowOpacity: 0.25,
+              shadowRadius: 3.84,
+              elevation: 5,
+           }}>
+           <Text style={styles.title}>Thông tin sự kiện</Text>
+           {eventInfo ? ( // Check if eventInfo is not null
+                  <View style={styles.eventInfo}>
+                      <Text style={styles.eventName}>{eventInfo.name}</Text>
+                      <Text style={styles.eventDetail}>Ngày: {`${formatDate(eventInfo.timeStart)} - ${formatDate(eventInfo.timeEnd)}`}</Text>
+                      <Text style={styles.eventDetail}>Thời gian: {eventInfo.time}</Text>
+                      <Text style={styles.eventDetail}>Địa điểm: {eventInfo.location}</Text>
+                  </View>
+              ) : (
+                  <Text style={styles.eventDetail}>Loading event information...</Text> // Fallback content
+              )}
+           </CardComponent>
+          
+  
+          {/* Personal Information */}
+          <CardComponent styles = {{
+              shadowColor: '#000',
+              shadowOffset: {
+                width: 0,
+                height: 2,
+              },
+              shadowOpacity: 0.25,
+              shadowRadius: 3.84,
+              elevation: 5,
+           }}>
+
+              <Text style={styles.title}>Thông tin cá nhân</Text>
+              <TextInput
+                  style={styles.input}
+                  placeholder="Họ và tên"
+                  value={formData.fullName}
+                  onChangeText={(text) => setFormData({...formData, fullName: text})}
+              />
+              <TextInput
+                  style={styles.input}
+                  placeholder="Số điện thoại"
+                  keyboardType="phone-pad"
+                  value={formData.phone}
+                  onChangeText={(text) => setFormData({...formData, phone: text})}
+              />
+              <TextInput
+                  style={styles.input}
+                  placeholder="Email"
+                  value={formData.email}
+                  onChangeText={(text) => setFormData({...formData, email: text})}
+              />
+           </CardComponent>
             
-    
-            {/* Ticket Selection */}
-            <View style={styles.card}>
-              <Text style={styles.title}>Chọn loại vé</Text>
-              
-              {/* Normal Ticket */}
-              <View style={styles.ticketType}>
-                <View style={styles.ticketInfo}>
-                  <Text style={styles.ticketName}>{ticketTypes.normal.name}</Text>
-                  <Text style={styles.ticketPrice}>
-                    {ticketTypes.normal.price.toLocaleString('vi-VN')} VND
-                  </Text>
-                </View>
-                <View style={styles.quantitySelector}>
-                  <TouchableOpacity 
-                    style={[styles.button, formData.tickets.normal <= 0 && styles.buttonDisabled]}
-                    onPress={() => updateTicketQuantity('normal', -1)}
-                    disabled={formData.tickets.normal <= 0}
-                  >
-                    <Text style={styles.buttonText}>-</Text>
-                  </TouchableOpacity>
-                  <Text style={styles.quantity}>{formData.tickets.normal}</Text>
-                  <TouchableOpacity 
-                    style={[styles.button, formData.tickets.normal >= 10 && styles.buttonDisabled]}
-                    onPress={() => updateTicketQuantity('normal', 1)}
-                    disabled={formData.tickets.normal >= 10}
-                  >
-                    <Text style={styles.buttonText}>+</Text>
-                  </TouchableOpacity>
-                </View>
-              </View>
-    
-              {/* VIP Ticket */}
-              <View style={styles.ticketType}>
-                <View style={styles.ticketInfo}>
-                  <Text style={styles.ticketName}>{ticketTypes.vip.name}</Text>
-                  <Text style={styles.ticketPrice}>
-                    {ticketTypes.vip.price.toLocaleString('vi-VN')} VND
-                  </Text>
-                </View>
-                <View style={styles.quantitySelector}>
-                  <TouchableOpacity 
-                    style={[styles.button, formData.tickets.vip <= 0 && styles.buttonDisabled]}
-                    onPress={() => updateTicketQuantity('vip', -1)}
-                    disabled={formData.tickets.vip <= 0}
-                  >
-                    <Text style={styles.buttonText}>-</Text>
-                  </TouchableOpacity>
-                  <Text style={styles.quantity}>{formData.tickets.vip}</Text>
-                  <TouchableOpacity 
-                    style={[styles.button, formData.tickets.vip >= 10 && styles.buttonDisabled]}
-                    onPress={() => updateTicketQuantity('vip', 1)}
-                    disabled={formData.tickets.vip >= 10}
-                  >
-                    <Text style={styles.buttonText}>+</Text>
-                  </TouchableOpacity>
-                </View>
-              </View>
-    
-              <View style={styles.totalContainer}>
-                <Text style={styles.totalLabel}>Tổng tiền:</Text>
-                <Text style={styles.totalPrice}>
-                  {calculateTotal().toLocaleString('vi-VN')} VND
+          {/* Ticket Selection */}
+          <View style={styles.card}>
+            <Text style={styles.title}>Chọn loại vé</Text>
+            
+            {/* Normal Ticket */}
+            <View style={styles.ticketType}>
+              <View style={styles.ticketInfo}>
+                <Text style={styles.ticketName}>{ticketTypes.normal.name}</Text>
+                <Text style={styles.ticketPrice}>
+                  {ticketTypes.normal.price.toLocaleString('vi-VN')} VND
                 </Text>
               </View>
+              <View style={styles.quantitySelector}>
+                <TouchableOpacity 
+                  style={[styles.button, formData.tickets.normal <= 0 && styles.buttonDisabled]}
+                  onPress={() => updateTicketQuantity('normal', -1)}
+                  disabled={formData.tickets.normal <= 0}
+                >
+                  <Text style={styles.buttonText}>-</Text>
+                </TouchableOpacity>
+                <Text style={styles.quantity}>{formData.tickets.normal}</Text>
+                <TouchableOpacity 
+                  style={[styles.button, formData.tickets.normal >= 10 && styles.buttonDisabled]}
+                  onPress={() => updateTicketQuantity('normal', 1)}
+                  disabled={formData.tickets.normal >= 10}
+                >
+                  <Text style={styles.buttonText}>+</Text>
+                </TouchableOpacity>
+              </View>
             </View>
-    
-            {/* Payment Methods */}
-            <View style={styles.card}>
-              <Text style={styles.title}>Phương thức thanh toán</Text>
-              <TouchableOpacity 
-                style={[styles.paymentMethod, formData.paymentMethod === 'zalo' && styles.selectedPayment]}
-                onPress={() => setFormData({...formData, paymentMethod: 'zalo'})}
-              >
-                <Text style={styles.paymentText}>Zalo Pay</Text>
-              </TouchableOpacity>
-              <TouchableOpacity 
-                style={[styles.paymentMethod, formData.paymentMethod === 'momo' && styles.selectedPayment]}
-                onPress={() => setFormData({...formData, paymentMethod: 'momo'})}
-              >
-                <Text style={styles.paymentText}>Momo</Text>
-              </TouchableOpacity>
-              <TouchableOpacity 
-                style={[styles.paymentMethod, formData.paymentMethod === 'banking' && styles.selectedPayment]}
-                onPress={() => setFormData({...formData, paymentMethod: 'banking'})}
-              >
-                <Text style={styles.paymentText}>Chuyển khoản ngân hàng</Text>
-              </TouchableOpacity>
+  
+            {/* VIP Ticket */}
+            {/*
+            <View style={styles.ticketType}>
+              <View style={styles.ticketInfo}>
+                <Text style={styles.ticketName}>{ticketTypes.vip.name}</Text>
+                <Text style={styles.ticketPrice}>
+                  {ticketTypes.vip.price.toLocaleString('vi-VN')} VND
+                </Text>
+              </View>
+              <View style={styles.quantitySelector}>
+                <TouchableOpacity 
+                  style={[styles.button, formData.tickets.vip <= 0 && styles.buttonDisabled]}
+                  onPress={() => updateTicketQuantity('vip', -1)}
+                  disabled={formData.tickets.vip <= 0}
+                >
+                  <Text style={styles.buttonText}>-</Text>
+                </TouchableOpacity>
+                <Text style={styles.quantity}>{formData.tickets.vip}</Text>
+                <TouchableOpacity 
+                  style={[styles.button, formData.tickets.vip >= 10 && styles.buttonDisabled]}
+                  onPress={() => updateTicketQuantity('vip', 1)}
+                  disabled={formData.tickets.vip >= 10}
+                >
+                  <Text style={styles.buttonText}>+</Text>
+                </TouchableOpacity>
+              </View>
             </View>
-    
-            {/* Checkout Button */}
+            */}
+  
+            <View style={styles.totalContainer}>
+              <Text style={styles.totalLabel}>Tổng tiền:</Text>
+              <Text style={styles.totalPrice}>
+                {calculateTotal().toLocaleString('vi-VN')} VND
+              </Text>
+            </View>
+          </View>
+  
+          {/* Payment Methods */}
+          <View style={styles.card}>
+            <Text style={styles.title}>Phương thức thanh toán</Text>
             <TouchableOpacity 
-              style={[styles.checkoutButton, !isFormValid() && styles.buttonDisabled]}
-              disabled={!isFormValid()}
+              style={[styles.paymentMethod, formData.paymentMethod === 'zalo' && styles.selectedPayment]}
+              onPress={() => setFormData({...formData, paymentMethod: 'zalo'})}
             >
-              <Text style={styles.checkoutButtonText}>Thanh toán</Text>
+              <Text style={styles.paymentText}>Zalo Pay</Text>
             </TouchableOpacity>
-          </ScrollView>
-        </SafeAreaView>
-      );
+            <TouchableOpacity 
+              style={[styles.paymentMethod, formData.paymentMethod === 'momo' && styles.selectedPayment]}
+              onPress={() => setFormData({...formData, paymentMethod: 'momo'})}
+            >
+              <Text style={styles.paymentText}>Momo</Text>
+            </TouchableOpacity>
+            <TouchableOpacity 
+              style={[styles.paymentMethod, formData.paymentMethod === 'banking' && styles.selectedPayment]}
+              onPress={() => setFormData({...formData, paymentMethod: 'banking'})}
+            >
+              <Text style={styles.paymentText}>Chuyển khoản ngân hàng</Text>
+            </TouchableOpacity>
+          </View>
+  
+          {/* Checkout Button */}
+          <TouchableOpacity 
+            style={[styles.checkoutButton, !isFormValid() && styles.buttonDisabled]}
+            disabled={!isFormValid()}
+            onPress={confirmOrder}
+          >
+            <Text style={styles.checkoutButtonText}>Thanh toán</Text>
+          </TouchableOpacity>
+        </ScrollView>
+      </SafeAreaView>
+    );
 }
 
 export default TicketEventScreen

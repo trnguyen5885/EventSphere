@@ -8,6 +8,8 @@ import NotificationScreen from "./notification/NotificationScreen"
 import AddEventScreen from "./add/AddEventScreen"
 import EventDetailScreen from "./detail/EventDetailScreen"
 import TicketEventScreen from "./ticket/TicketEventScreen"
+import PaymentScreen from './payment/PaymentScreen'
+import UserTicketsScreen from './ticket/UserTicketsScreen'
+import ListTicket from './ticket/ListTicket'
 
-
-export {WelcomeScreen, LoginScreen, RegisterScreen,ExploreScreen, EventScreen, MapScreen, NotificationScreen,AddEventScreen,EventDetailScreen, TicketEventScreen  }
+export {WelcomeScreen, LoginScreen, RegisterScreen,ExploreScreen, EventScreen, MapScreen, NotificationScreen,AddEventScreen,EventDetailScreen, TicketEventScreen, PaymentScreen, UserTicketsScreen, ListTicket}
