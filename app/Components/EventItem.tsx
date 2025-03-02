@@ -1,27 +1,40 @@
-import { View, Text, Dimensions, Image } from "react-native";
+import {
+  View,
+  Text,
+  Dimensions,
+  Image,
+  StyleProp,
+  ViewStyle,
+} from "react-native";
 import React from "react";
 import { CardComponent, TextComponent } from "../components";
 import { appColors } from "../constants/appColors";
 import MaterialIcons from "@expo/vector-icons/MaterialIcons";
 import { formatDate } from "../services";
 import { formatPrice } from "../services/utils/price";
+import { Ionicons } from "@expo/vector-icons";
+import { globalStyles } from "../constants/globalStyles";
 
 interface Props {
   item: any;
   type: "list" | "card";
+  styles?: StyleProp<ViewStyle>;
   onPress?: () => void;
 }
 
 const EventItem = (props: Props) => {
-  const { item, type, onPress } = props;
+  const { item, type, styles, onPress } = props;
 
   return type === "card" ? (
     <CardComponent
       onPress={onPress}
-      styles={{
-        width: Dimensions.get("window").width * 0.7,
-        alignItems: "flex-start",
-      }}>
+      styles={[
+        {
+          width: Dimensions.get("window").width * 0.7,
+          alignItems: "flex-start",
+        },
+        styles,
+      ]}>
       <Image
         style={{
           width: "100%",
@@ -29,7 +42,7 @@ const EventItem = (props: Props) => {
           objectFit: "cover",
           borderRadius: 15,
         }}
-        source={{ uri: item.images[0] }}
+        source={{ uri: item.avatar }}
       />
       <TextComponent
         numberOfLine={2}
@@ -43,16 +56,14 @@ const EventItem = (props: Props) => {
         styles={{ fontSize: 17, fontWeight: "bold", color: appColors.primary }}
       />
 
-      <View
-        style={{
-          flexDirection: "row",
-          alignItems: "center",
-          justifyContent: "center",
-
-          marginTop: 5,
-        }}>
-        <Text>{`${formatDate(item.timeStart)} - `}</Text>
-        <Text>{formatDate(item.timeEnd)}</Text>
+      <View style={[globalStyles.row, { marginTop: 5, columnGap: 5 }]}>
+        <View>
+          <Ionicons name="calendar" size={18} color={appColors.primary} />
+        </View>
+        <View style={globalStyles.row}>
+          <Text>{`${formatDate(item.timeStart)} - `}</Text>
+          <Text>{formatDate(item.timeEnd)}</Text>
+        </View>
       </View>
     </CardComponent>
   ) : (

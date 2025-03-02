@@ -7,6 +7,7 @@ import {
   ScrollView,
   StyleSheet,
   SafeAreaView,
+  Platform
 } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import { CardComponent, RowComponent } from '@/app/components';
@@ -95,7 +96,7 @@ const TicketEventScreen = ({navigation, route}) => {
       }
     
       return (
-        <SafeAreaView style={[globalStyles.container]}>
+        <View style={[globalStyles.container]}>
             <View style={styles.header}>
                 <RowComponent onPress={handleNavigation}  styles = {{columnGap: 25}}>
                     <Ionicons name="chevron-back" size={26} color="white" />
@@ -253,7 +254,7 @@ const TicketEventScreen = ({navigation, route}) => {
               <Text style={styles.checkoutButtonText}>Thanh toán</Text>
             </TouchableOpacity>
           </ScrollView>
-        </SafeAreaView>
+        </View>
       );
 }
 
@@ -264,20 +265,18 @@ const styles = StyleSheet.create({
         flex: 1,
         backgroundColor: '#f5f5f5',
       },
-      header: 
-      {
-              flexDirection: 'row',
-              alignItems: "center",
-              justifyContent: 'space-between',
-              padding: 12,
-              backgroundColor: appColors.primary
-            },
-            headerTitle: {
-              color: appColors.white2,
-              fontSize: 22,
-              fontWeight: "500"
-          
-            },
+      header: {
+       flexDirection: 'row',
+       alignItems: "center",
+       justifyContent: 'space-between',
+       padding: 12,
+       backgroundColor: appColors.primary,
+       paddingTop: Platform.OS === "ios" ? 66 : 22
+      },     
+      headerTitle: {
+      color: appColors.white2,
+      fontSize: 22,
+      fontWeight: "500" },
       card: {
         backgroundColor: 'white',
         margin: 16,

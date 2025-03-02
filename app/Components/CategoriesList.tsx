@@ -1,12 +1,11 @@
 import { View, Text, FlatList } from "react-native";
 import React, { ReactNode, useEffect, useState } from "react";
-import Ionicons from "react-native-vector-icons/Ionicons";
 import { RowComponent, SpaceComponent, TextComponent } from ".";
 import { globalStyles } from "../constants/globalStyles";
 import { appColors } from "../constants/appColors";
-import FontAwesome from "react-native-vector-icons/FontAwesome";
 import MaterialIcons from "@expo/vector-icons/MaterialIcons";
 import { AxiosInstance } from "../services";
+import { useNavigation } from "@react-navigation/native";
 
 interface Props {
   isColor?: boolean;
@@ -20,11 +19,16 @@ interface Category {
 const CategoriesList = (props: Props) => {
   const { isColor } = props;
   const [categories, setCategories] = useState<Category[] | undefined>([]);
+  const navigation = useNavigation();
 
   useEffect(() => {
     const getCategories = async () => {
-      const response = await AxiosInstance().get("categories/all");
-      setCategories(response.data);
+      try {
+        const response = await AxiosInstance().get("categories/all");
+        setCategories(response.data);
+      } catch (e) {
+        console.log(e);
+      }
     };
     getCategories();
 
@@ -38,7 +42,7 @@ const CategoriesList = (props: Props) => {
     const icons = [
       "sports-baseball",
       "music-note",
-      "fastfood",
+      "gamepad",
       "videogame-asset",
       "biotech",
     ];
@@ -51,7 +55,14 @@ const CategoriesList = (props: Props) => {
     const iconName = getEventIcon(index + 1);
     return (
       <RowComponent
-        onPress={() => {}}
+        onPress={() => {
+          navigation.navigate("Category", {
+            id: item._id,
+            name: item.name,
+            color: color,
+            icon: iconName,
+          });
+        }}
         styles={[
           [
             globalStyles.tag,
