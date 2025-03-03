@@ -27,6 +27,7 @@ interface Props {
 }
 
 const ButtonComponent = (props: Props) => {
+
   const {
     icon,
     text,
@@ -49,7 +50,7 @@ const ButtonComponent = (props: Props) => {
         onPress={onPress}
         style={[
           globalStyles.button,
-          globalStyles.shadow,
+          // globalStyles.shadow,
           {
             backgroundColor: color
               ? color
@@ -90,4 +91,9 @@ const ButtonComponent = (props: Props) => {
   );
 };
 
+
 export default ButtonComponent;
+
+
+   
+
