@@ -1,4 +1,4 @@
-import { StyleSheet, Text, View } from "react-native";
+import { StatusBar, StyleSheet, Text, View } from "react-native";
 import { useFonts } from "expo-font";
 import React from "react";
 import { GestureHandlerRootView } from "react-native-gesture-handler";
@@ -6,6 +6,7 @@ import { NavigationContainer } from "@react-navigation/native";
 import { createStackNavigator } from "@react-navigation/stack";
 import { WelcomeScreen, LoginScreen, RegisterScreen } from "./app/screens";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
+import OnbroadingScreen from "./app/screens/auth/OnbroadingScreen";
 import TabNavigator from "./app/navigation/TabNavigator";
 
 const Stack = createNativeStackNavigator();
@@ -34,16 +35,23 @@ const App = () => {
       {/* Container chứa tất cả màn hàn và xử lí chuyển màn hình */}
       <NavigationContainer>
         <Stack.Navigator
-          initialRouteName="Register"
+          initialRouteName="Welcome"
           screenOptions={{
             headerShown: false,
           }}>
           <Stack.Screen name="Welcome" component={WelcomeScreen} />
+          <Stack.Screen name="Onbroading" component={OnbroadingScreen} />
           <Stack.Screen name="Login" component={LoginScreen} />
           <Stack.Screen name="Register" component={RegisterScreen} />
           <Stack.Screen name="BottomTab" component={TabNavigator} />
         </Stack.Navigator>
       </NavigationContainer>
+
+      <StatusBar
+        barStyle="dark-content"
+        backgroundColor="transparent"
+        translucent
+      />
     </GestureHandlerRootView>
   );
 };

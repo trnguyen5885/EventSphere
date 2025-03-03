@@ -1,20 +1,54 @@
-import { StyleSheet, Text, View } from "react-native";
-import React from "react";
+import {
+  ImageBackground,
+  Image,
+  StyleSheet,
+  Text,
+  View,
+  Dimensions,
+  ActivityIndicator,
+} from "react-native";
+import React, { useEffect } from "react";
+import { globalStyles } from "@/app/constants/globalStyles";
+import { SpaceComponent } from "@/app/Components";
+import { appColors } from "@/app/constants/appColors";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
-const WelcomeScreen = () => {
+const WelcomeScreen = ({ navigation }: any) => {
+  useEffect(() => {
+    setTimeout(() => {
+      navigation.replace("Onbroading"); // Sau 3 giây, chuyển sang màn hình đăng nhập
+    }, 3000);
+  }, [navigation]);
+
+  useEffect(() => {
+    const checkLoginStatus = async () => {
+      const userId = await AsyncStorage.getItem("userId");
+
+      setTimeout(() => {
+        if (userId) {
+          navigation.replace("Home");
+        }
+      }, 3000);
+    };
+
+    checkLoginStatus();
+  }, [navigation]);
   return (
-    <View style={styles.container}>
-      <Text>Welcome Screen</Text>
-    </View>
+    <ImageBackground
+      style={globalStyles.container}
+      source={require("../../../assets/images/splash-img.png")}
+      imageStyle={{ flex: 1 }}>
+      <Image
+        source={require("../../../assets/images/logo.png")}
+        style={{
+          width: Dimensions.get("window").width * 0.7,
+          resizeMode: "contain",
+        }}
+      />
+      <SpaceComponent height={20} />
+      <ActivityIndicator color={appColors.gray} size={22} />
+    </ImageBackground>
   );
 };
 
 export default WelcomeScreen;
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    justifyContent: "center",
-    alignItems: "center",
-  },
-});
