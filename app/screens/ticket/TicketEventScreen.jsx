@@ -112,54 +112,6 @@ const TicketEventScreen = ({navigation, route}) => {
         console.log("Tạo đơn hàng thất bại " + e)
       }
     }
-
-    return (
-      <SafeAreaView style={[globalStyles.container]}>
-          <View style={styles.header}>
-              <RowComponent onPress={handleNavigation}  styles = {{columnGap: 25}}>
-                  <Ionicons name="chevron-back" size={26} color="white" />
-                  <Text style = {styles.headerTitle} >Thanh toán</Text>
-              </RowComponent>
-          </View>
-      
-        <ScrollView>
-          {/* Event Information */}
-          
-           <CardComponent styles = {{
-              shadowColor: '#000',
-              shadowOffset: {
-                width: 0,
-                height: 2,
-              },
-              shadowOpacity: 0.25,
-              shadowRadius: 3.84,
-              elevation: 5,
-           }}>
-           <Text style={styles.title}>Thông tin sự kiện</Text>
-           {eventInfo ? ( // Check if eventInfo is not null
-                  <View style={styles.eventInfo}>
-                      <Text style={styles.eventName}>{eventInfo.name}</Text>
-                      <Text style={styles.eventDetail}>Ngày: {`${formatDate(eventInfo.timeStart)} - ${formatDate(eventInfo.timeEnd)}`}</Text>
-                      <Text style={styles.eventDetail}>Thời gian: {eventInfo.time}</Text>
-                      <Text style={styles.eventDetail}>Địa điểm: {eventInfo.location}</Text>
-                  </View>
-              ) : (
-                  <Text style={styles.eventDetail}>Loading event information...</Text> // Fallback content
-              )}
-           </CardComponent>
-          
-  
-          {/* Personal Information */}
-          <CardComponent styles = {{
-              shadowColor: '#000',
-              shadowOffset: {
-                width: 0,
-                height: 2,
-              },
-              shadowOpacity: 0.25,
-              shadowRadius: 3.84,
-              elevation: 5,
-           }}>
     
       return (
         <View style={[globalStyles.container]}>
@@ -327,11 +279,8 @@ const TicketEventScreen = ({navigation, route}) => {
             <Text style={styles.checkoutButtonText}>Thanh toán</Text>
           </TouchableOpacity>
         </ScrollView>
-      </SafeAreaView>
+      </View>
     );
-          </ScrollView>
-        </View>
-      );
 }
 
 export default TicketEventScreen

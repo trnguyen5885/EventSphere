@@ -13,6 +13,7 @@ import TicketEventScreen from "./ticket/TicketEventScreen"
 import PaymentScreen from './payment/PaymentScreen'
 import UserTicketsScreen from './ticket/UserTicketsScreen'
 import ListTicket from './ticket/ListTicket'
+import ProfileScreen from './profile/ProfileScreen'
 
 export {
   WelcomeScreen,
@@ -29,5 +30,6 @@ export {
   EventSearchScreen,
   PaymentScreen,
   UserTicketsScreen,
-  ListTicket
+  ListTicket,
+  ProfileScreen
   }

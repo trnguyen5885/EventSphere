@@ -180,7 +180,7 @@ const styles = StyleSheet.create({
       detailSubtitle: {
         color: appColors.white2,
 
-        maxWidth: 335,
+        maxWidth: 320,
         lineHeight: 26,
         marginTop: 2,
       

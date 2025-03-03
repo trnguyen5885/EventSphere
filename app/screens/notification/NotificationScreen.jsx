@@ -1,4 +1,4 @@
-import { Dimensions, StyleSheet, Text, TouchableOpacity, View } from "react-native";
+import { Dimensions, StyleSheet, Text, TouchableOpacity, View, Platform } from "react-native";
 import React from "react";
 import { CardComponent, RowComponent, TextComponent } from "@/app/components";
 import { Ionicons } from "@expo/vector-icons";
@@ -9,10 +9,7 @@ const NotificationScreen = ({navigation}) => {
   return (
     <View>
       <View style={styles.header}>
-        <RowComponent styles={{ columnGap: 25 }}>
-          <Ionicons name="chevron-back" size={26} color="white" />
           <Text style={styles.headerTitle} >Thông báo</Text>
-        </RowComponent>
       </View>
         <CardComponent style={styles.notificationCard}>
           <TextComponent style={styles.title} text={"Bạn đã đặt vé thành công"}/>
@@ -36,8 +33,10 @@ const styles = StyleSheet.create({
   {
     flexDirection: 'row',
     alignItems: "center",
-    justifyContent: 'space-between',
+    justifyContent: "center",
     padding: 12,
+    paddingTop: Platform.OS === "ios" ? 66 : 22,
+    
     backgroundColor: appColors.primary
   },
   headerTitle: {

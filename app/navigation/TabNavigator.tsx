@@ -8,6 +8,7 @@ import {
   ExploreScreen,
   MapScreen,
   NotificationScreen,
+  ProfileScreen,
 } from "../screens";
 import { CircleComponent, TextComponent } from "@/app/components";
 import MaterialIcons from "@expo/vector-icons/MaterialIcons";
@@ -49,10 +50,8 @@ const TabNavigator = () => {
                 <MaterialIcons name="location-on" size={size} color={color} />
               );
               break;
-            case "Notification":
-              icon = (
-                <MaterialIcons name="notifications" size={size} color={color} />
-              );
+            case "Profile":
+              icon = <MaterialIcons name="person" size={size} color={color} />;
               break;
 
             case "Add":
@@ -91,7 +90,7 @@ const TabNavigator = () => {
       <Tab.Screen name="Events" component={EventScreen} />
       <Tab.Screen name="Add" component={AddEventScreen} />
       <Tab.Screen name="Map" component={MapScreen} />
-      <Tab.Screen name="Notification" component={NotificationScreen} />
+      <Tab.Screen name="Profile" component={ProfileScreen} />
     </Tab.Navigator>
   );
 };

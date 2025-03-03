@@ -14,6 +14,8 @@ import {
   NotificationScreen,
   UserTicketsScreen,
   ListTicket,
+  EventCategoryScreen,
+  EventSearchScreen,
 } from "./app/screens";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import TabNavigator from "./app/navigation/TabNavigator";
