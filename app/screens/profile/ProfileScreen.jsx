@@ -1,6 +1,6 @@
 import { StyleSheet, Text, View, Image } from 'react-native'
 import React from 'react'
-import { ButtonComponent, RowComponent, TextComponent } from '@/app/Components'
+import { ButtonComponent, RowComponent, TextComponent } from '@/app/components'
 import { ScrollView, TouchableOpacity } from 'react-native'
 import Fontisto from '@expo/vector-icons/Fontisto';
 import Ionicons from '@expo/vector-icons/Ionicons';
@@ -18,22 +18,9 @@ const ProfileScreen = () => {
   const interest = ["Games Online", "Concert", "Music", "Art", "Movie", "Others"];
   return (
     <ScrollView showsVerticalScrollIndicator={true}
-    contentContainerStyle={{ flexGrow: 1 }}>
+      contentContainerStyle={{ flexGrow: 1 }}>
       <View style={styles.container}>
-      <View style={styles.backButtonContainer}>
-      <ButtonComponent
-          text='Profile'
-          textColor='black'
-          textStyles={{ fontWeight: 'bold', fontSize: 24 }}
-          icon={<Ionicons name="arrow-back" size={22} color="black" />}
-          iconFlex='left'
-          type='primary'
-          styles={styles.backButton}
-        />
-      </View>
-
         <ProfileHeader />
-
         
         <View style={styles.editBtnContainer}>
           <ButtonComponent
@@ -103,7 +90,7 @@ const styles = StyleSheet.create({
     width: '100%',
     backgroundColor: '#FFFFFF',
     paddingHorizontal: 20,
-    paddingVertical: 10,
+    paddingVertical: 30,
   },
   backButtonContainer:{
     justifyContent: 'flex-start',

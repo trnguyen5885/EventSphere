@@ -1,6 +1,6 @@
 import { StyleSheet, Text, View } from "react-native";
 import React from "react";
-import { ButtonComponent } from "@/app/Components";
+import { ButtonComponent } from "@/app/components";
 import { appColors } from "@/app/constants/appColors";
 
 const WelcomeScreen = () => {
@@ -9,11 +9,11 @@ const WelcomeScreen = () => {
       <Text>Welcome Screen</Text>
 
       <ButtonComponent
-      type="primary"
-      text="djbhdwajd"
-      iconFlex="left"
-      color={appColors.danger}/>
-
+        type="primary"
+        text="djbhdwajd"
+        iconFlex="left"
+        color={appColors.danger}
+      />
     </View>
   );
 };

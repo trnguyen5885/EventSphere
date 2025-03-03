@@ -1,6 +1,6 @@
 import { StyleSheet, Text, View, Image } from 'react-native'
 import React from 'react'
-import { ButtonComponent, TextComponent } from '@/app/Components'
+import { ButtonComponent, TextComponent } from '@/app/components'
 import Ionicons from '@expo/vector-icons/Ionicons';
 import MaterialCommunityIcons from '@expo/vector-icons/MaterialCommunityIcons';
 
