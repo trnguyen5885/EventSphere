@@ -1,4 +1,5 @@
-import { StyleSheet, Text, View } from "react-native";
+
+import { StyleSheet } from "react-native";
 import React, { useEffect, useState } from "react";
 import authenticationAPI from "@/app/apis/authApi/authenticationAPI";
 import AsyncStorage from "@react-native-async-storage/async-storage";
@@ -11,68 +12,81 @@ import {
   SpaceComponent,
   TextComponent,
 } from "@/app/components";
+
 import { Lock, Sms, User } from "iconsax-react-native";
 import { appColors } from "@/app/constants/appColors";
 import SocialLogin from "./Components/SocialLogin";
 import LoadingModal from "@/app/modals/LoadingModal";
-import { Validate } from "@/app/utils/Validate";
-
-const initValue = {
-  username: "",
-  email: "",
-  password: "",
-  confirmPassword: "",
-  role: 3,
-};
 
 const RegisterScreen = ({ navigation }: any) => {
-  const [values, setValues] = useState(initValue);
-  const [isLoading, setIsLoading] = useState(false);
-  const [errorMessage, setErrorMessage] = useState<any>();
+  const [username, setUsername] = useState<string>("");
+  const [email, setEmail] = useState<string>("");
+  const [password, setPassword] = useState<string>("");
+  const [confirmPassword, setConfirmPassword] = useState<string>("");
+  const [isLoading, setIsLoading] = useState<boolean>(false);
+  const [errors, setErrors] = useState<any>({});
 
+  // 🔹 Theo dõi người dùng nhập liệu để ẩn lỗi khi nhập đúng
   useEffect(() => {
-    if (values.email || values.password) {
-      setErrorMessage("");
-    }
-  }, [values.email, values.password]);
+    let tempErrors = { ...errors };
 
-  const handleChangeValue = (key: string, value: string) => {
-    const data: any = { ...values };
+    if (username.trim()) delete tempErrors.username;
+    if (email.trim() && /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email))
+      delete tempErrors.email;
+    if (password.trim() && password.length >= 6) delete tempErrors.password;
+    if (confirmPassword.trim() && confirmPassword === password)
+      delete tempErrors.confirmPassword;
 
-    data[`${key}`] = value;
+    setErrors(tempErrors);
+  }, [username, email, password, confirmPassword]);
 
-    setValues(data);
-  };
-
+  // 🔹 Kiểm tra lỗi đầu vào
   const validateForm = () => {
-    const errors = {};
-    return errors;
+    let tempErrors: any = {};
+    if (!username.trim()) tempErrors.username = "Vui lòng nhập Username";
+    if (!email.trim()) {
+      tempErrors.email = "Vui lòng nhập Email";
+    } else {
+      const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+      if (!emailRegex.test(email)) tempErrors.email = "Email không hợp lệ";
+    }
+
+    if (!password.trim()) {
+      tempErrors.password = "Vui lòng nhập Mật khẩu";
+    } else if (password.length < 6) {
+      tempErrors.password = "Mật khẩu phải có ít nhất 6 ký tự";
+    }
+
+    if (!confirmPassword.trim()) {
+      tempErrors.confirmPassword = "Vui lòng nhập Xác nhận mật khẩu";
+    } else if (confirmPassword !== password) {
+      tempErrors.confirmPassword = "Mật khẩu xác nhận không khớp";
+    }
+
+    setErrors(tempErrors);
+    return Object.keys(tempErrors).length === 0; // Trả về true nếu không có lỗi
   };
 
+  // 🔹 Xử lý đăng ký tài khoản
   const handleRegister = async () => {
-    const errors = validateForm();
-
-    if (Object.keys(errors).length > 0) {
-      setErrorMessage(errors);
-      return;
-    }
+    if (!validateForm()) return;
 
     setIsLoading(true);
     try {
+      const body = { username, email, password };
       const res = await authenticationAPI.HandleAuthentication(
         "/register",
-        values,
+        body,
         "post",
       );
+
       if (res.status === 200 || res.status === 201) {
-        await AsyncStorage.setItem("auth", JSON.stringify(res.data));
-        alert("Registration successful! Redirecting to login screen...");
-        navigation.navigate("BottomTab");
-      }
-      if (res.status === 400) {
-        alert("Email exist!");
+        navigation.navigate("Login");
+      } else if (res.status === 400) {
+        console.log("⚠️ Email đã tồn tại!");
       }
     } catch (error) {
+      navigation.navigate("Login");
     } finally {
       setIsLoading(false);
     }
@@ -82,55 +96,52 @@ const RegisterScreen = ({ navigation }: any) => {
     <>
       <ContainerComponent isImageBackground isScroll back>
         <SectionComponent>
-          <TextComponent size={24} title text="Sign in" />
+          <TextComponent size={24} title text="Sign Up" />
           <SpaceComponent height={21} />
           <InputComponent
-            value={values.username}
+            value={username}
             placeholder="Username"
-            onChange={val => handleChangeValue("username", val)}
+            onChange={val => setUsername(val)}
             allowClear
             affix={<User size={22} color={appColors.gray} />}
           />
+          {errors.username && (
+            <TextComponent color="red" text={errors.username} />
+          )}
+
           <InputComponent
-            value={values.email}
+            value={email}
             placeholder="@abc@gmail.com"
-            onChange={val => handleChangeValue("email", val)}
+            onChange={val => setEmail(val)}
             allowClear
             affix={<Sms size={22} color={appColors.gray} />}
-            onEnd={() =>
-              setErrorMessage({ ...errorMessage, email: "Email không hợp lệ" })
-            }
           />
+          {errors.email && <TextComponent color="red" text={errors.email} />}
+
           <InputComponent
-            value={values.password}
+            value={password}
             placeholder="Password"
-            onChange={val => handleChangeValue("password", val)}
+            onChange={val => setPassword(val)}
             isPassword
             allowClear
             affix={<Lock size={22} color={appColors.gray} />}
           />
+          {errors.password && (
+            <TextComponent color="red" text={errors.password} />
+          )}
+
           <InputComponent
-            value={values.confirmPassword}
+            value={confirmPassword}
             placeholder="Confirm Password"
-            onChange={val => handleChangeValue("confirmPassword", val)}
+            onChange={val => setConfirmPassword(val)}
             isPassword
             allowClear
             affix={<Lock size={22} color={appColors.gray} />}
           />
+          {errors.confirmPassword && (
+            <TextComponent color="red" text={errors.confirmPassword} />
+          )}
         </SectionComponent>
-
-        {errorMessage && (
-          <SectionComponent>
-            {Object.keys(errorMessage).map((error, index) => (
-              <TextComponent
-                text={errorMessage[`${error}`]}
-                key={`error${index}`}
-                color={appColors.danger}
-              />
-            ))}
-          </SectionComponent>
-        )}
-
         <SpaceComponent height={16} />
         <SectionComponent>
           <ButtonComponent
@@ -140,18 +151,19 @@ const RegisterScreen = ({ navigation }: any) => {
           />
         </SectionComponent>
 
-        <SocialLogin />
+        {/* <SocialLogin /> */}
 
         <SectionComponent>
           <RowComponent justify="center">
-            <TextComponent text="Don't have an account?" />
+            <TextComponent text="Already have an account?" />
             <ButtonComponent
               type="link"
-              text="Sign up"
+              text="Sign in"
               onPress={() => navigation.navigate("Login")}
             />
           </RowComponent>
         </SectionComponent>
+
         <LoadingModal visible={isLoading} />
       </ContainerComponent>
     </>
