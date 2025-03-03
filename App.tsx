@@ -19,6 +19,7 @@ import {
 } from "./app/screens";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import TabNavigator from "./app/navigation/TabNavigator";
+import DrawerNavigator from "./app/navigation/DrawerNavigator";
 
 const Stack = createNativeStackNavigator();
 
@@ -51,7 +52,7 @@ const App = () => {
           }}>
           {/* <Stack.Screen name="Login" component={LoginScreen} />
           <Stack.Screen name="Register" component={RegisterScreen} /> */}
-          <Stack.Screen name="BottomTab" component={TabNavigator} />
+          <Stack.Screen name="BottomTab" component={DrawerNavigator} />
           <Stack.Screen name="Category" component={EventCategoryScreen} />
           <Stack.Screen name="Search" component={EventSearchScreen} />
           <Stack.Screen name="Detail" component={EventDetailScreen} />

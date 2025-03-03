@@ -88,7 +88,7 @@ const ExploreScreen = ({navigation}) => {
         }}>
         <View style={{ marginBottom: 7, paddingHorizontal: 16 }}>
           <RowComponent>
-            <TouchableOpacity>
+            <TouchableOpacity onPress={() => {navigation.openDrawer()}}>
               <HambergerMenu size={24} color={appColors.white} />
             </TouchableOpacity>
             <View style={[{ flex: 1, alignItems: "center" }]}>
