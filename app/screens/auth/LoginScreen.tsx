@@ -14,6 +14,7 @@ import {
 } from "../../components/index";
 import authenticationAPI from "../../apis/authApi/authenticationAPI";
 import SocialLogin from "./Components/SocialLogin";
+import LoadingModal from "@/app/modals/LoadingModal";
 
 const LoginScreen = ({ navigation }: any) => {
   const [useId, setUseId] = useState<string>("");
@@ -103,6 +104,10 @@ const LoginScreen = ({ navigation }: any) => {
       setIsLoading(false);
     }
   };
+
+  if (isLoading) {
+    return <LoadingModal />;
+  }
 
   return (
     <ContainerComponent isImageBackground isScroll>

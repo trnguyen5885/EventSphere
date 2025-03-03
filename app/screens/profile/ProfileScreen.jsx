@@ -1,5 +1,5 @@
 import { StyleSheet, Text, View, Image } from 'react-native'
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import { ButtonComponent, RowComponent, TextComponent } from '@/app/components'
 import { ScrollView, TouchableOpacity } from 'react-native'
 import Fontisto from '@expo/vector-icons/Fontisto';
@@ -7,6 +7,7 @@ import Ionicons from '@expo/vector-icons/Ionicons';
 import Feather from '@expo/vector-icons/Feather';
 import MaterialCommunityIcons from '@expo/vector-icons/MaterialCommunityIcons';
 import ProfileHeader from './ProfileHeader'
+import { AxiosInstance } from '@/app/services';
 
 const getRandomColor = () => {
   const r = Math.floor(Math.random() * 256);
@@ -14,8 +15,13 @@ const getRandomColor = () => {
   const b = Math.floor(Math.random() * 256);
   return `rgb(${r}, ${g}, ${b})`;
 };
-const ProfileScreen = () => {
-  const interest = ["Games Online", "Concert", "Music", "Art", "Movie", "Others"];
+const ProfileScreen = ({navigation}) => {
+  const interest = ["Thể thao", "Âm nhạc", "Giải trí", "Kịch", "Hội thảo", "Khác"];
+  
+
+
+
+
   return (
     <ScrollView showsVerticalScrollIndicator={true}
       contentContainerStyle={{ flexGrow: 1 }}>
@@ -24,25 +30,28 @@ const ProfileScreen = () => {
         
         <View style={styles.editBtnContainer}>
           <ButtonComponent
-            text='Edit'
+            text='Chỉnh sửa'
             textStyles={{ fontSize: 24, color: '#5669FF', margin: 0 }}
             icon={<MaterialCommunityIcons name="square-edit-outline" size={24} color="#5669FF" />}
             iconFlex='left'
             type='primary'
             styles={styles.editBtn}
+            onPress={() => {
+              navigation.navigate("ProfileEdit")
+            }}
           />
         </View>
         <TextComponent
-          text='About Me'
+          text='Về tôi'
           textStyles={{ fontWeight: 'bold' }}
           styles={styles.aboutMeTitle} />
         <View style={styles.aboutMeContainer}>
           <View style={styles.aboutMeContentContainer}>
             <Text>
-            Enjoy your favorite dishe and a lovely your friends and family and have a great time.
-             Food from local food trucks will be available for purchase. 
+            Thưởng thức món ăn yêu thích của bạn và có một khoảng thời gian vui vẻ cùng bạn bè và gia đình của bạn.
+             Thực phẩm từ xe tải thực phẩm địa phương sẽ có sẵn để mua.
              <TouchableOpacity style={{flexDirection:'row', alignItems:'center', justifyContent:'center'}}>
-              <Text style={{color:'#5669FF', height:15, alignItems:'center'}}> Read more </Text>
+              <Text style={{color:'#5669FF', height:15, alignItems:'center'}}> Thêm </Text>
               <Image source={require('../../../assets/images/Vector10.png')}></Image>
               </TouchableOpacity>
             </Text>
@@ -53,16 +62,8 @@ const ProfileScreen = () => {
         <View>
           <View style={styles.interestContainer}>
             <TextComponent
-              text='Interest'
+              text='Quan tâm'
               styles={styles.interestText}
-            />
-            <ButtonComponent
-              text='CHANGE'
-              textStyles={{ color: '#5669FF', fontSize:10 }}
-              icon={<Feather name="edit-3" size={9} color="#5669FF" />}
-              iconFlex='left'
-              type='primary'
-              styles={styles.changeBtn}
             />
           </View>
         </View>

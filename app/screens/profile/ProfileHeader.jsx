@@ -1,11 +1,27 @@
 import { StyleSheet, Text, View, Image } from 'react-native'
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import { ButtonComponent, TextComponent } from '@/app/components'
 import Ionicons from '@expo/vector-icons/Ionicons';
 import MaterialCommunityIcons from '@expo/vector-icons/MaterialCommunityIcons';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import { AxiosInstance } from '@/app/services';
 
 
 const ProfileHeader = () => {
+
+  const [name, setName] = useState("");
+  
+  
+  useEffect(() => {
+    const getUserInfo = async () => {
+      const userID = await AsyncStorage.getItem("userId");
+      const response = await AxiosInstance().get(`users/${userID}`);
+      setName(response.data.username)
+    }
+    getUserInfo()
+  },[])
+
+
   return (
     <View >
       <View style={styles.profileAVTContainer}>
@@ -13,7 +29,7 @@ const ProfileHeader = () => {
         </View>
         <View style={styles.nameContainer}>
           <TextComponent
-            text="si dep trai hehe"
+            text={name}
             styles={styles.name}
           />
         </View>
@@ -23,7 +39,7 @@ const ProfileHeader = () => {
           <View></View>
           <View style={styles.followingAndFollowerContainer}>
             <TextComponent
-              text='350'
+              text='0'
               styles={styles.followCount}
             />
             <TextComponent
@@ -38,7 +54,7 @@ const ProfileHeader = () => {
 
           <View style={styles.followingAndFollowerContainer}>
             <TextComponent
-              text='346'
+              text='0'
 
               styles={styles.followCount}
             />

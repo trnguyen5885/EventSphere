@@ -14,6 +14,7 @@ import PaymentScreen from './payment/PaymentScreen'
 import UserTicketsScreen from './ticket/UserTicketsScreen'
 import ListTicket from './ticket/ListTicket'
 import ProfileScreen from './profile/ProfileScreen'
+import ProfileEdit from './profile/ProfileEdit'
 
 export {
   WelcomeScreen,

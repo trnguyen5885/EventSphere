@@ -8,7 +8,7 @@ import {
   Image,
   FlatList,
 } from "react-native";
-import React from "react";
+import React, { useState } from "react";
 import {
   ButtonComponent,
   RowComponent,
@@ -28,8 +28,12 @@ import {
   Sms,
   User,
 } from "iconsax-react-native";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import LoadingModal from "../modals/LoadingModal";
+import { CommonActions } from "@react-navigation/native";
 
 const DrawerCustom = ({ navigation }: any) => {
+  const [isLoading, setIsLoading] = useState(false);
   const size = 20;
   const color = appColors.gray;
   const profileMenu = [
@@ -75,6 +79,28 @@ const DrawerCustom = ({ navigation }: any) => {
     },
   ];
 
+  const handleSigout = async () => {
+    setIsLoading(true);
+    try {
+      await AsyncStorage.removeItem("userId");
+      navigation.dispatch(
+        CommonActions.reset({
+          index: 0,
+          routes: [{ name: "Login" }],
+        }),
+      );
+    } catch (e) {
+      console.log(e);
+      setIsLoading(false);
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  if (isLoading) {
+    return <LoadingModal visible />;
+  }
+
   return (
     <View style={[localStyles.container]}>
       <FlatList
@@ -86,7 +112,7 @@ const DrawerCustom = ({ navigation }: any) => {
             styles={[localStyles.listItem]}
             onPress={
               item.key === "SignOut"
-                ? () => console.log("Sign out")
+                ? () => handleSigout()
                 : () => {
                     console.log(item.key);
                     navigation.closeDrawer();

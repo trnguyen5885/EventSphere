@@ -21,6 +21,7 @@ import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import OnbroadingScreen from "./app/screens/auth/OnbroadingScreen";
 import TabNavigator from "./app/navigation/TabNavigator";
 import DrawerNavigator from "./app/navigation/DrawerNavigator";
+import ProfileEdit from "./app/screens/profile/ProfileEdit";
 
 const Stack = createNativeStackNavigator();
 
@@ -62,6 +63,7 @@ const App = () => {
           <Stack.Screen name="Notification" component={NotificationScreen} />
           <Stack.Screen name="UserTickets" component={UserTicketsScreen} />
           <Stack.Screen name="ListTicket" component={ListTicket} />
+          <Stack.Screen name="ProfileEdit" component={ProfileEdit} />
         </Stack.Navigator>
       </NavigationContainer>
 
