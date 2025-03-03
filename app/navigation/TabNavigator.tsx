@@ -10,7 +10,7 @@ import {
   NotificationScreen,
   ProfileScreen,
 } from "../screens";
-import { CircleComponent, TextComponent } from "@/app/components";
+import { CircleComponent, TextComponent } from "@/app/Components";
 import MaterialIcons from "@expo/vector-icons/MaterialIcons";
 import { globalStyles } from "../constants/globalStyles";
 

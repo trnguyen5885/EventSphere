@@ -1,4 +1,4 @@
-import { StyleSheet, Text, View } from "react-native";
+import { StatusBar, StyleSheet, Text, View } from "react-native";
 import { useFonts } from "expo-font";
 import React from "react";
 import { GestureHandlerRootView } from "react-native-gesture-handler";
@@ -18,6 +18,7 @@ import {
   EventSearchScreen,
 } from "./app/screens";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
+import OnbroadingScreen from "./app/screens/auth/OnbroadingScreen";
 import TabNavigator from "./app/navigation/TabNavigator";
 import DrawerNavigator from "./app/navigation/DrawerNavigator";
 
@@ -63,6 +64,12 @@ const App = () => {
           <Stack.Screen name="ListTicket" component={ListTicket} />
         </Stack.Navigator>
       </NavigationContainer>
+
+      <StatusBar
+        barStyle="dark-content"
+        backgroundColor="transparent"
+        translucent
+      />
     </GestureHandlerRootView>
   );
 };
