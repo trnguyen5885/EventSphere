@@ -8,7 +8,7 @@ import {
 } from "react-native";
 import React, { ReactNode } from "react";
 import { useNavigation } from "@react-navigation/native";
-import { ButtonComponent, RowComponent, TextComponent } from ".";
+import { ButtonComponent, RowComponent, TextComponent } from "@/app/components";
 import { ArrowLeft } from "iconsax-react-native";
 import { appColors } from "../constants/appColors";
 import { fontFamilies } from "../constants/fontFamilies";

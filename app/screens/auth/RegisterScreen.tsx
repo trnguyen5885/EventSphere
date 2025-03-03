@@ -1,3 +1,4 @@
+
 import { StyleSheet } from "react-native";
 import React, { useEffect, useState } from "react";
 import authenticationAPI from "@/app/apis/authApi/authenticationAPI";
@@ -10,7 +11,8 @@ import {
   SectionComponent,
   SpaceComponent,
   TextComponent,
-} from "@/app/Components";
+} from "@/app/components";
+
 import { Lock, Sms, User } from "iconsax-react-native";
 import { appColors } from "@/app/constants/appColors";
 import SocialLogin from "./Components/SocialLogin";
@@ -140,7 +142,6 @@ const RegisterScreen = ({ navigation }: any) => {
             <TextComponent color="red" text={errors.confirmPassword} />
           )}
         </SectionComponent>
-
         <SpaceComponent height={16} />
         <SectionComponent>
           <ButtonComponent

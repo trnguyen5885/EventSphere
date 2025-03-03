@@ -27,6 +27,7 @@ interface Props {
 }
 
 const ButtonComponent = (props: Props) => {
+
   const {
     icon,
     text,
@@ -44,11 +45,12 @@ const ButtonComponent = (props: Props) => {
   return type === "primary" ? (
     <View style={{ alignItems: "center" }}>
       <TouchableOpacity
+        activeOpacity={0.65}
         disabled={disable}
         onPress={onPress}
         style={[
           globalStyles.button,
-          globalStyles.shadow,
+          // globalStyles.shadow,
           {
             backgroundColor: color
               ? color
@@ -89,4 +91,9 @@ const ButtonComponent = (props: Props) => {
   );
 };
 
+
 export default ButtonComponent;
+
+
+   
+
