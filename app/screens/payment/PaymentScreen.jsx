@@ -19,7 +19,7 @@ const PaymentScreen = ({ navigation, route }) => {
       }
       const ticket = await AxiosInstance().post("/orders/createTicket", body);
       console.log(ticket.data);
-      navigation.goBack();
+      navigation.navigate("Drawer");
     } catch (e) {
       console.log("Tạo vé thất bại "+e);
     }

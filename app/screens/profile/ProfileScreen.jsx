@@ -1,4 +1,4 @@
-import { StyleSheet, Text, View, Image } from 'react-native'
+import { StyleSheet, Text, View, Image, Platform } from 'react-native'
 import React, { useEffect, useState } from 'react'
 import { ButtonComponent, RowComponent, TextComponent } from '@/app/components'
 import { ScrollView, TouchableOpacity } from 'react-native'
@@ -91,7 +91,7 @@ const styles = StyleSheet.create({
     width: '100%',
     backgroundColor: '#FFFFFF',
     paddingHorizontal: 20,
-    paddingVertical: 30,
+    paddingVertical: Platform.OS === "ios" ? 66 : 23,
   },
   backButtonContainer:{
     justifyContent: 'flex-start',

@@ -14,7 +14,8 @@
         "NSLocationWhenInUseUsageDescription": "This app needs access to location when open to show nearby events.",
         "NSLocationAlwaysAndWhenInUseUsageDescription": "This app needs access to location when in the background for location tracking.",
         "NSLocationAlwaysUsageDescription": "This app needs access to location when in the background."
-      }
+      },
+      "bundleIdentifier": "com.trungnguyen5885.EventSphere"
     },
     "android": {
       "adaptiveIcon": {
@@ -22,9 +23,16 @@
         "backgroundColor": "#ffffff"
       },
       "permissions": [
-      "ACCESS_COARSE_LOCATION",
-      "ACCESS_FINE_LOCATION",
-      "ACCESS_BACKGROUND_LOCATION" ]
+        "ACCESS_COARSE_LOCATION",
+        "ACCESS_FINE_LOCATION",
+        "ACCESS_BACKGROUND_LOCATION",
+        "android.permission.ACCESS_COARSE_LOCATION",
+        "android.permission.ACCESS_FINE_LOCATION",
+        "android.permission.ACCESS_BACKGROUND_LOCATION",
+        "android.permission.FOREGROUND_SERVICE",
+        "android.permission.FOREGROUND_SERVICE_LOCATION"
+      ],
+      "package": "com.trungnguyen5885.EventSphere"
     },
     "web": {
       "bundler": "metro",

@@ -1,5 +1,5 @@
 import { StyleSheet } from "react-native";
-import { appColors } from "../constants/appColors";
+import { appColors } from "./appColors";
 
 export const globalStyles = StyleSheet.create({
     container: {
@@ -18,12 +18,11 @@ export const globalStyles = StyleSheet.create({
         paddingHorizontal: 16,
         paddingVertical: 16,
         minHeight: 56,
-        flexDirection: 'row'
+        flexDirection: "row",
     },
     section: {
         paddingHorizontal: 16,
-        paddingBottom: 15,
-        
+        paddingBottom: 15,      
     },
     row: {
         flexDirection: 'row',

@@ -7,7 +7,7 @@ import { ButtonComponent, InputComponent, RowComponent } from '@/app/components'
 import { Lock, Sms, User } from "iconsax-react-native";
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { AxiosInstance } from '@/app/services';
-import LoadingModal from '@/app/modals/LoadingModal';
+import LoadingModal from '../../modals/LoadingModal';
 
 
 

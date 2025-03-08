@@ -4,6 +4,7 @@ import { useState } from 'react'
 import { useEffect } from 'react';
 import { AxiosInstance } from '@/app/services';
 import { TextComponent } from '@/app/components';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const UserTicketsScreen = ({navigation, route}) => {
     const [userData, setUserData] = useState(null);
@@ -16,8 +17,8 @@ const UserTicketsScreen = ({navigation, route}) => {
     useEffect(()=>{
         const getTickets = async() =>{
             try{
-                const tickets = await AxiosInstance().get("/tickets/getTicket/6773f10819073b07dc2f9e3d");
-                
+                const userId = await AsyncStorage.getItem("userId");
+                const tickets = await AxiosInstance().get(`/tickets/getTicket/${userId}`);
                 setUserData(tickets.data.user);
                 setEvents(tickets.data.events);
                 setLoading(false);
