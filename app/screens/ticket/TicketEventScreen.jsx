@@ -15,10 +15,12 @@ import { appColors } from '@/app/constants/appColors';
 import { globalStyles } from '@/app/constants/globalStyles';
 import { AxiosInstance } from '@/app/services';
 import { formatDate } from "@/app/services/index";
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const TicketEventScreen = ({navigation, route}) => {
 
   const { id } = route.params;
+  const [userID, setUserID] = useState();
 
   const [eventInfo, setEventInfo] = useState({
       name: "",
@@ -53,8 +55,11 @@ const TicketEventScreen = ({navigation, route}) => {
   useEffect(() => {
 
       const getInfoEvent = async () => {
-          const response = await AxiosInstance().get(`events/detail/${id}`)
+          const response = await AxiosInstance().get(`events/detail/${id}`);
+          const userId = await AsyncStorage.getItem("userId")
           setEventInfo(response.data);
+          setUserID(userId);
+          
       }
 
       getInfoEvent();
@@ -83,9 +88,9 @@ const TicketEventScreen = ({navigation, route}) => {
     };
   
     const isFormValid = () => {
-      return formData.fullName.trim() !== '' &&
-             formData.phone.trim() !== '' &&
-             (formData.tickets.normal > 0 || formData.tickets.vip > 0) &&
+      // return formData.fullName.trim() !== '' &&
+      //        formData.phone.trim() !== '' &&
+            return (formData.tickets.normal > 0 || formData.tickets.vip > 0) &&
              formData.paymentMethod !== '';
     };
 
@@ -98,7 +103,7 @@ const TicketEventScreen = ({navigation, route}) => {
       try{
         const body = {
           eventId: id,
-          userId: "6773f10819073b07dc2f9e3d",
+          userId: userID,
           amount: formData.tickets.normal
         }
         const createOrder = await AxiosInstance().post("orders/createOrder", body);
@@ -146,7 +151,7 @@ const TicketEventScreen = ({navigation, route}) => {
             
     
             {/* Personal Information */}
-            <CardComponent styles = {{
+            {/* <CardComponent styles = {{
                 shadowColor: '#000',
                 shadowOffset: {
                   width: 0,
@@ -177,7 +182,7 @@ const TicketEventScreen = ({navigation, route}) => {
                   value={formData.email}
                   onChangeText={(text) => setFormData({...formData, email: text})}
               />
-           </CardComponent>
+           </CardComponent> */}
             
           {/* Ticket Selection */}
           <View style={styles.card}>

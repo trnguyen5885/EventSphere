@@ -32,5 +32,6 @@ export {
   PaymentScreen,
   UserTicketsScreen,
   ListTicket,
-  ProfileScreen
+  ProfileScreen,
+  ProfileEdit
   }
