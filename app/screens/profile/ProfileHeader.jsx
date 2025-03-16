@@ -5,6 +5,8 @@ import Ionicons from '@expo/vector-icons/Ionicons';
 import MaterialCommunityIcons from '@expo/vector-icons/MaterialCommunityIcons';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { AxiosInstance } from '@/app/services';
+import { useFocusEffect } from '@react-navigation/native';
+import { useCallback } from 'react';
 
 
 const ProfileHeader = () => {
@@ -12,14 +14,23 @@ const ProfileHeader = () => {
   const [name, setName] = useState("");
   
   
-  useEffect(() => {
-    const getUserInfo = async () => {
-      const userID = await AsyncStorage.getItem("userId");
-      const response = await AxiosInstance().get(`users/${userID}`);
-      setName(response.data.username)
-    }
-    getUserInfo()
-  },[])
+  useFocusEffect(
+    useCallback(() => {
+      const getUserInfo = async () => {
+        try {
+          const userID = await AsyncStorage.getItem("userId");
+          if (userID) {
+            const response = await AxiosInstance().get(`users/${userID}`);
+            setName(response.data.username);
+          }
+        } catch (error) {
+          console.log("Lỗi khi lấy thông tin người dùng:", error);
+        }
+      };
+
+      getUserInfo();
+    }, [])
+  );
 
 
   return (
