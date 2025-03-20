@@ -7,6 +7,7 @@ import { createStackNavigator } from "@react-navigation/stack";
 import { WelcomeScreen, LoginScreen, RegisterScreen, ProfileScreen} from "./app/screens";
 import ProfileHeader from "./app/screens/profile/ProfileHeader";
 import ProfileAboutScrenn from "./app/screens/profile/ProfileAboutScreen";
+import AddEventInfo from "./app/screens/organizer/AddEventInfo";
 
 const Stack = createStackNavigator();
 
@@ -34,7 +35,7 @@ const App = () => {
       {/* Container chứa tất cả màn hàn và xử lí chuyển màn hình */}
       <NavigationContainer>
         <Stack.Navigator
-          initialRouteName="ProfileAbout" //man hinh mac dinh khi chay
+          initialRouteName="AddEventInfo" //man hinh mac dinh khi chay
           screenOptions={{
             headerShown: false,
           }}>
@@ -44,6 +45,7 @@ const App = () => {
           <Stack.Screen name="Profile" component={ProfileScreen} />
           <Stack.Screen name="ProfileHeader" component={ProfileHeader} />
           <Stack.Screen name="ProfileAbout" component={ProfileAboutScrenn} />
+          <Stack.Screen name="AddEventInfo" component={AddEventInfo} />
         </Stack.Navigator>
       </NavigationContainer>
     </GestureHandlerRootView>

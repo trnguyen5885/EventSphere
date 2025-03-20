@@ -1,22 +1,38 @@
-import { StyleSheet, Text, View, Image } from 'react-native'
+import { StyleSheet, Text, View, Image, ActivityIndicator } from 'react-native'
 import React from 'react'
-import { ButtonComponent, TextComponent } from '@/app/Components'
+import { ButtonComponent, TextComponent } from '@/app/components'
 import Ionicons from '@expo/vector-icons/Ionicons';
 import MaterialCommunityIcons from '@expo/vector-icons/MaterialCommunityIcons';
-
+import { useState, useEffect } from 'react';
 
 const ProfileHeader = () => {
+    const [users, setUsers] = useState([]);
+    const [loading, setLoading] = useState(true);
+  
+    // goi API lay user
+    useEffect(() => {
+      fetch('http://192.168.100.2:3000/users/6773f04f19073b07dc2f9e3a')
+        .then(response => response.json())
+        .then(data => {
+          if(data.status){
+            setUsers(data.data);
+          }
+        })
+        .catch(error => console.error('loi khi goi API: ', error))
+        .finally(() => setLoading(false));
+    }, []);
   return (
     <View >
       <View style={styles.profileAVTContainer}>
           <Image style={styles.profileAVT} source={require('../../../assets/images/profileAVT.png')}></Image>
         </View>
         <View style={styles.nameContainer}>
-          <TextComponent
-            text="si dep trai hehe"
-            styles={styles.name}
-          />
-        </View>
+        {loading ? (
+          <ActivityIndicator size="small" color="#5669FF" />
+        ) : (
+          <TextComponent text={users ? users.username : 'Không có dữ liệu'} styles={styles.name} />
+        )}
+      </View>
 
         <View style={styles.followContainer}>
           <View></View>

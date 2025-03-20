@@ -1,12 +1,12 @@
 import { FlatList, StyleSheet, Text, View, Image, } from 'react-native'
 import React from 'react'
 import ProfileHeader from './ProfileHeader'
-import { ButtonComponent, RowComponent } from '@/app/Components'
+import { ButtonComponent, RowComponent } from '@/app/components'
 import Entypo from '@expo/vector-icons/Entypo';
 import Ionicons from '@expo/vector-icons/Ionicons';
 import AntDesign from '@expo/vector-icons/AntDesign';
 import Feather from '@expo/vector-icons/Feather';
-import { useState } from 'react';
+import { useState, useRef, useEffect} from 'react';
 import { FlashList } from "@shopify/flash-list";
 import PagerView from "react-native-pager-view";
 
@@ -116,9 +116,20 @@ const reviewData = [
     comment: 'Cinemas is the ultimate experience to see new movies in Gold Class or Vmax. Find a cinema near you.'
   }
 ];
+
+
 const ProfileAboutScreen = () => {
   const [selectedItem, setSelectedItem] = useState(0);
   const [pageIndex, setPageIndex] = useState(0);
+  const pagerRef = useRef(null);
+
+
+  // xu li khi nhan cac nut ABOUT/EVENT/ REVIEWS
+  const handleTabPress = (index) => {
+    setSelectedItem(index);
+    setPageIndex(index);
+    pagerRef.current?.setPage(index);
+  }
   return (
     <View style={styles.container}>
       <View style={styles.headerButtonContainer}>
@@ -135,7 +146,10 @@ const ProfileAboutScreen = () => {
           styles={styles.headerButtons}
         />
       </View>
+
       <ProfileHeader />
+
+
       <View style={styles.editBtnContainer}>
         <ButtonComponent
           text='Follow'
@@ -166,7 +180,7 @@ const ProfileAboutScreen = () => {
                   selectedItem == index && { color: '#5669FF', justifyContent: 'center', alignItems: 'center' }
                 ]}
                 styles={styles.detailBtn}
-                onPress={() => setSelectedItem(index)}
+                onPress={() => [setSelectedItem(index), handleTabPress(index)]}
               />
               <View style={styles.placeHolderLine}>
                 {selectedItem == index && <View style={styles.line}></View>}
@@ -178,17 +192,19 @@ const ProfileAboutScreen = () => {
 
 
         <PagerView
+          ref={pagerRef}
           style={styles.pagerView}
           initialPage={0}
           onPageSelected={(e) => setSelectedItem(e.nativeEvent.position)}
         >
           <View key="1" style={styles.page}>
-            <Text>{aboutData} <Text style={{color:'#5669FF'}} onPress={()=>console.log('si dep trai')}>Read more</Text></Text>
+            <Text>{aboutData} <Text style={{ color: '#5669FF' }}>Read more</Text></Text>
           </View>
           <View key="2" style={styles.page}>
             <FlashList
               data={eventData}
               keyExtractor={(item) => item.id}
+              showsVerticalScrollIndicator={false}
               renderItem={({ item }) => (
                 <View style={styles.eventItem}>
                   <View>
@@ -208,6 +224,7 @@ const ProfileAboutScreen = () => {
             <FlatList
               data={reviewData}
               keyExtractor={(item) => item.id}
+              showsVerticalScrollIndicator={false}
               renderItem={({ item }) => (
                 <View style={styles.reviewItem}>
                   <View style={styles.reviewItemAvt}>
@@ -216,9 +233,9 @@ const ProfileAboutScreen = () => {
                   <View style={styles.reviewItemContent}>
                     <Text style={styles.reviewItemName}>{item.name}</Text>
                     <View style={styles.reviewItemRating}>
-                        {Array.from({ length: item.rating }).map((_, index) => (
-                            <Text key={index} style={styles.reviewItemStar}>⭐</Text>
-                        ))}
+                      {Array.from({ length: item.rating }).map((_, index) => (
+                        <Text key={index} style={styles.reviewItemStar}>⭐</Text>
+                      ))}
                     </View>
                     <Text style={styles.reviewItemComment}>{item.comment}</Text>
                   </View>
@@ -375,8 +392,8 @@ const styles = StyleSheet.create({
     color: 'black',
     fontWeight: 'bold',
   },
-  reviewItemRating:{
-    flexDirection:'row'
+  reviewItemRating: {
+    flexDirection: 'row'
   },
   reviewItemStar: {
     marginRight: 5,

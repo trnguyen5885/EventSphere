@@ -1,6 +1,6 @@
 import { StyleSheet, Text, View, Image } from 'react-native'
 import React from 'react'
-import { ButtonComponent, RowComponent, TextComponent } from '@/app/Components'
+import { ButtonComponent, RowComponent, TextComponent } from '@/app/components'
 import { ScrollView, TouchableOpacity } from 'react-native'
 import Fontisto from '@expo/vector-icons/Fontisto';
 import Ionicons from '@expo/vector-icons/Ionicons';
@@ -82,13 +82,9 @@ const ProfileScreen = () => {
 
         <View style={styles.interestBtnContainer}>
           {interest.map((item, index) => (
-            <ButtonComponent
-              key={index}
-              text={item}
-              type="primary"
-              styles={[styles.interestBtn, { backgroundColor: getRandomColor() }]}
-              textStyles={styles.interestTitle}
-            />
+            <View key={index} style={styles.interestTags}>
+                <Text style={styles.interestTitle}>{item}</Text>
+            </View>
           ))}
         </View>
       </View>
@@ -190,22 +186,23 @@ const styles = StyleSheet.create({
     padding:0
 
   },
-  interestBtn: {
-    minHeight:10,
-    width:'auto',
-    paddingBottom:7,
-    paddingTop:7,
-    paddingStart:15,
-    paddingEnd:15,
-    marginRight: 8,
-    marginBottom: 8,
-    borderRadius: 20,
-    
+  interestTags: {
+    minWidth:60,
+    height:'auto',
+    borderWidth:2,
+    borderColor:'#5669FF',
+    justifyContent: 'center',
+    alignItems:'center',
+    paddingVertical:5,
+    paddingHorizontal:10,
+    marginRight:5,
+    marginBottom:5,
+    borderRadius:50,
   },
   interestTitle: {
     fontSize: 16,
     lineHeight: 25,
-    color: '#ffffff',
+    color: '#5669FF',
     whiteSpace: 'nowrap'
   },
 })
