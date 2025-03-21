@@ -3,13 +3,27 @@ import { useFonts } from "expo-font";
 import React from "react";
 import { GestureHandlerRootView } from "react-native-gesture-handler";
 import { NavigationContainer } from "@react-navigation/native";
-import { createStackNavigator } from "@react-navigation/stack";
 import { WelcomeScreen, LoginScreen, RegisterScreen, ProfileScreen} from "./app/screens";
 import ProfileHeader from "./app/screens/profile/ProfileHeader";
-import ProfileAboutScrenn from "./app/screens/profile/ProfileAboutScreen";
+import ProfileAboutScreen from "./app/screens/profile/ProfileAboutScreen";
 import AddEventInfo from "./app/screens/organizer/AddEventInfo";
+import CreateTicket from "./app/screens/organizer/CreateTicket";
+import {
+  EventDetailScreen,
+  TicketEventScreen,
+  PaymentScreen,
+  NotificationScreen,
+  UserTicketsScreen,
+  ListTicket,
+  EventCategoryScreen,
+  EventSearchScreen,
+} from "./app/screens";
+import { createNativeStackNavigator } from "@react-navigation/native-stack";
+import TabNavigator from "./app/navigation/TabNavigator";
+import DrawerNavigator from "./app/navigation/DrawerNavigator";
 
-const Stack = createStackNavigator();
+
+const Stack = createNativeStackNavigator();
 
 const App = () => {
   // Thêm font
@@ -35,7 +49,8 @@ const App = () => {
       {/* Container chứa tất cả màn hàn và xử lí chuyển màn hình */}
       <NavigationContainer>
         <Stack.Navigator
-          initialRouteName="AddEventInfo" //man hinh mac dinh khi chay
+
+          initialRouteName="CreateTicket" //man hinh mac dinh khi chay
           screenOptions={{
             headerShown: false,
           }}>
@@ -44,8 +59,21 @@ const App = () => {
           <Stack.Screen name="Register" component={RegisterScreen} />
           <Stack.Screen name="Profile" component={ProfileScreen} />
           <Stack.Screen name="ProfileHeader" component={ProfileHeader} />
-          <Stack.Screen name="ProfileAbout" component={ProfileAboutScrenn} />
+          <Stack.Screen name="ProfileAbout" component={ProfileAboutScreen} />
           <Stack.Screen name="AddEventInfo" component={AddEventInfo} />
+          <Stack.Screen name="CreateTicket" component={CreateTicket} />
+  
+          {/* <Stack.Screen name="Login" component={LoginScreen} />
+          <Stack.Screen name="Register" component={RegisterScreen} /> */}
+          <Stack.Screen name="BottomTab" component={DrawerNavigator} />
+          <Stack.Screen name="Category" component={EventCategoryScreen} />
+          <Stack.Screen name="Search" component={EventSearchScreen} />
+          <Stack.Screen name="Detail" component={EventDetailScreen} />
+          <Stack.Screen name="Ticket" component={TicketEventScreen} />
+          <Stack.Screen name="Payment" component={PaymentScreen} />
+          <Stack.Screen name="Notification" component={NotificationScreen} />
+          <Stack.Screen name="UserTickets" component={UserTicketsScreen} />
+          <Stack.Screen name="ListTicket" component={ListTicket} />
         </Stack.Navigator>
       </NavigationContainer>
     </GestureHandlerRootView>

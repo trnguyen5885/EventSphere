@@ -1,182 +1,161 @@
-import { StyleSheet, Text, TouchableOpacity, View, Image, TextInput, ScrollView } from 'react-native'
-import React from 'react'
+import { StyleSheet, Text, TouchableOpacity, View, TextInput, ScrollView, Image, Pressable } from 'react-native';
+import React, { useState } from 'react';
+import { ButtonComponent } from '@/app/components';
+import AddEventHeaderComponent from '@/app/components/AddEventHeaderComponent';
+
+// Danh sách thể loại sự kiện
+const EVENT_CATEGORIES = [
+  'Âm nhạc', 'Hội thảo', 'Thể thao', 'Nghệ thuật', 'Công nghệ', 'Giải trí', 'Sức khỏe'
+];
 
 const AddEventInfo = () => {
+  const [selectedCategory, setSelectedCategory] = useState('');
+  const [isDropdownOpen, setIsDropdownOpen] = useState(false);
+
+  // Xử lý chọn thể loại sự kiện
+  const handleSelectCategory = (category) => {
+    setSelectedCategory(category);
+    setIsDropdownOpen(false);
+  };
+
   return (
     <ScrollView>
-    <View style={styles.container}>
-      <Text style={styles.headerTitle}>Thêm sự kiện</Text>
-      <View style={styles.headerSectionContainer}>
-        <View style={{ justifyContent: 'center', alignItems: 'center' }}>
-          <View style={styles.headerSectionIndex}>
-            <Text style={styles.headerSectionIndexNumber}>1</Text>
-          </View>
+      <Pressable style={styles.container} onPress={() => setIsDropdownOpen(false)}>
+        
+        <AddEventHeaderComponent currentStep={1} />
 
-        </View>
-        {/* line */}
-        <View style={styles.headerSectionLine}></View>
-
-        <View style={{ justifyContent: 'center', alignItems: 'center' }}>
-          <View style={styles.headerSectionIndex}>
-            <Text style={styles.headerSectionIndexNumber}>2</Text>
-          </View>
-
+        {/* Chọn ảnh nền và logo sự kiện */}
+        <View style={styles.sectionContainer}>
+          {['Thêm ảnh nền sự kiện', 'Thêm logo sự kiện'].map((title, index) => (
+            <TouchableOpacity key={index} style={styles.imageUploadContainer}>
+              <Image source={require('../../../assets/images/event_background_example.png')} />
+              <View style={styles.imageUploadTextContainer}>
+                <Text style={styles.imageUploadTitle}>{title}</Text>
+                <Text style={styles.imageUploadSize}>(1280x720)</Text>
+              </View>
+            </TouchableOpacity>
+          ))}
         </View>
 
-        {/* line */}
-        <View style={styles.headerSectionLine}></View>
+        {/* Nhập thông tin sự kiện */}
+        <View style={styles.sectionContainer}>
+          {['Tên sự kiện', 'Tên địa điểm', 'Tỉnh/Thành', 'Quận/Huyện', 'Phường/Xã', 'Số nhà/Đường'].map((label, index) => (
+            <View key={index}>
+              <Text style={styles.inputLabel}>{label}</Text>
+              <TextInput style={styles.inputField} placeholder={label} />
+            </View>
+          ))}
+        </View>
 
-        <View style={{ justifyContent: 'center', alignItems: 'center' }}>
-          <View style={styles.headerSectionIndex}>
-            <Text style={styles.headerSectionIndexNumber}>3</Text>
-          </View>
+        {/* Chọn thể loại sự kiện */}
+        <View style={styles.sectionContainer}>
+          <Text style={styles.inputLabel}>Thể loại sự kiện</Text>
+          <TouchableOpacity style={styles.inputField} onPress={() => setIsDropdownOpen(!isDropdownOpen)}>
+            <Text style={{ fontSize: 16, paddingVertical:10, color: selectedCategory ? '#000' : '#999' }}>
+              {selectedCategory || 'Chọn thể loại'}
+            </Text>
+          </TouchableOpacity>
+          {isDropdownOpen && (
+            <View style={styles.dropdownList}>
+              {EVENT_CATEGORIES.map((item) => (
+                <TouchableOpacity key={item} style={styles.dropdownItem} onPress={() => handleSelectCategory(item)}>
+                  <Text style={styles.dropdownText}>{item}</Text>
+                </TouchableOpacity>
+              ))}
+            </View>
+          )}
+        </View>
 
+        {/* Mô tả sự kiện */}
+        <View style={styles.sectionContainer}>
+          <Text style={styles.inputLabel}>Thông tin sự kiện</Text>
+          <TextInput style={styles.inputField} placeholder='Mô tả thông tin sự kiện' />
         </View>
-      </View>
-      <View style={styles.headerSectionTitleContainer}>
-        <View>
-          <Text style={styles.headerSectionTitle}>Thông tin</Text>
+
+        {/* Thông tin ban tổ chức */}
+        <View style={styles.sectionContainer}>
+          <Text style={styles.inputLabel}>Tên ban tổ chức</Text>
+          <TextInput style={styles.inputField} placeholder='Tên ban tổ chức' />
+          <Text style={styles.inputLabel}>Thông tin ban tổ chức</Text>
+          <TextInput style={[styles.inputField, { height: 170 }]} placeholder='Thông tin ban tổ chức' />
+          <TouchableOpacity style={[styles.imageUploadContainer, { backgroundColor: 'grey', height: 170 }]} />
         </View>
-        <View>
-          <Text style={styles.headerSectionTitle}>  Tạo vé</Text>
+
+        {/* Nút điều hướng */}
+        <View style={styles.buttonContainer}>
+          <ButtonComponent type='primary' text='ĐẶT LẠI' textColor='black' color='white' styles={{ borderWidth: 1, width: 150 }} />
+          <ButtonComponent type='primary' text='TIẾP' styles={{ width: 200 }} />
         </View>
-        <View>
-          <Text style={styles.headerSectionTitle}>Thanh toán</Text>
-        </View>
-      </View>
-      <View style={styles.addSectionBackgroundContainer}>
-        <TouchableOpacity style={styles.addImageBackgroundSection}>
-          <View>
-            <Image source={require('../../../assets/images/event_background_example.png')}></Image>
-          </View>
-          <View style={styles.addImageBackgroundSectionTitle}>
-            <Text style={styles.addImageBackgroundSectionTitleText}>Thêm ảnh nền sự kiện</Text>
-            <Text style={styles.addImageBackgroundSectionTitleSize}>(1280x720)</Text>
-          </View>
-        </TouchableOpacity>
-        <TouchableOpacity style={styles.addImageBackgroundSection}>
-          <View>
-            <Image source={require('../../../assets/images/event_background_example.png')}></Image>
-          </View>
-          <View style={styles.addImageBackgroundSectionTitle}>
-            <Text style={styles.addImageBackgroundSectionTitleText}>Thêm logo  sự kiện</Text>
-            <Text style={styles.addImageBackgroundSectionTitleSize}>(720x958)</Text>
-          </View>
-        </TouchableOpacity>
-      </View>
-      <View style={styles.addSectionBackgroundContainer}>
-          <Text style={styles.addInfoSectionTitle}>Tên sự kiện</Text>
-          <TextInput style={styles.inputFiled} placeholder='Tên sự kiện'></TextInput>
-          <Text style={styles.addInfoSectionTitle}>Địa chỉ sự kiện</Text>
-          <Text style={styles.addInfoSectionTitle}>Tên địa điểm</Text>
-          <TextInput style={styles.inputFiled} placeholder='Tên địa điểm'></TextInput>
-          <Text style={styles.addInfoSectionTitle}>Tỉnh/Thành</Text>
-          <TextInput style={styles.inputFiled} placeholder='Tỉnh/Thành'></TextInput>
-          <Text style={styles.addInfoSectionTitle}>Quận/Huyện</Text>
-          <TextInput style={styles.inputFiled} placeholder='Quận/Huyện'></TextInput>
-          <Text style={styles.addInfoSectionTitle}>Phường/Xã</Text>
-          <TextInput style={styles.inputFiled} placeholder='Phường/Xã'></TextInput>
-          <Text style={styles.addInfoSectionTitle}>Số nhà/Đường</Text>
-          <TextInput style={styles.inputFiled} placeholder='Số nhà/Đường'></TextInput>
-      </View>
-    </View>
+      </Pressable>
     </ScrollView>
-  )
-}
+  );
+};
 
-export default AddEventInfo
+export default AddEventInfo;
 
 const styles = StyleSheet.create({
   container: {
+    flex:1,
     paddingVertical: 50,
     paddingHorizontal: 14,
     backgroundColor: '#FCFCFC',
   },
-  headerTitle: {
-    fontSize: 29,
-    fontWeight: '400',
-    width: '100%',
-    textAlign: 'center'
-  },
-  headerSectionContainer: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-    boxSizing: 'border-box',
-    width: '100%',
-    paddingHorizontal: 10,
-    marginTop: 12
-  },
-  headerSectionIndex: {
-    backgroundColor: '#5669FF',
-    width: 40,
-    height: 40,
-    borderRadius: '50%',
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-  headerSectionIndexNumber: {
-    fontSize: 22,
-    fontWeight: 'bold',
-    color: 'white',
-  },
-  headerSectionLine: {
-    borderWidth: 1,
-    borderColor: '#5669FF',
-    backgroundColor: '#5669FF',
-    width: 90,
-    height: 5,
-    borderRadius: 10,
-    opacity: 0.1
-  },
-  headerSectionTitleContainer: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    marginTop: 10,
-    width: '100%',
-  },
-  headerSectionTitle: {
-    fontSize: 16,
-    fontWeight: '400',
-  },
-  addSectionBackgroundContainer: {
+  sectionContainer: {
     borderRadius: 30,
     borderColor: '#5669FF',
     borderWidth: 2,
     padding: 20,
-    marginVertical:10
+    marginVertical: 10,
   },
-  addImageBackgroundSection:{
-    backgroundColor:'white',
-    padding:10,
-    borderRadius:20,
-    marginVertical:10
+  imageUploadContainer: {
+    backgroundColor: 'white',
+    padding: 10,
+    borderRadius: 20,
+    marginVertical: 10,
+    alignItems: 'center',
   },
-  addImageBackgroundSectionTitle: {
+  imageUploadTextContainer: {
+    marginVertical: 30,
+    alignItems: 'center',
+  },
+  imageUploadTitle: {
     fontSize: 16,
-    marginVertical:30,
-    justifyContent:'center',
-    alignItems:'center'
+    fontWeight: '400',
   },
-  addImageBackgroundSectionTitleText:{
-    fontSize:16,
-    fontWeight:400
+  imageUploadSize: {
+    fontSize: 18,
+    fontWeight: 'bold',
   },
-  addImageBackgroundSectionTitleSize:{
-      fontSize:18,
-      fontWeight:'bold'
+  inputLabel: {
+    fontSize: 18,
+    fontWeight: 'bold',
+    marginVertical: 5,
   },
-  addInfoSectionTitle: {
-    fontSize:18,
-    fontWeight:'bold',
-    marginVertical:5
+  inputField: {
+    borderWidth: 1,
+    borderColor: 'grey',
+    borderRadius: 15,
+    marginVertical: 10,
+    paddingHorizontal: 10,
   },
-  inputFiled: {
-      borderWidth: 1,
-      borderColor: 'grey',
-      borderRadius:15,
-      marginVertical:10,
-      paddingHorizontal:10,
+  dropdownList: {
+    marginTop: 5,
+    backgroundColor: 'white',
+    borderWidth: 1,
+    borderColor: '#ccc',
+    borderRadius: 5,
   },
-
-})
+  dropdownItem: {
+    padding: 10,
+    borderBottomWidth: 1,
+    borderBottomColor: '#eee',
+  },
+  dropdownText: {
+    fontSize: 16,
+  },
+  buttonContainer: {
+    flexDirection: 'row',
+    width: '100%',
+    justifyContent: 'space-between',
+  },
+});
