@@ -22,6 +22,8 @@ import OnbroadingScreen from "./app/screens/auth/OnbroadingScreen";
 import TabNavigator from "./app/navigation/TabNavigator";
 import DrawerNavigator from "./app/navigation/DrawerNavigator";
 import ProfileEdit from "./app/screens/profile/ProfileEdit";
+import VertificationScreen from "./app/screens/auth/VertificationScreen";
+import ForgotPasswordScreen from "./app/screens/auth/ForgotPasswordScreen";
 
 const Stack = createNativeStackNavigator();
 
@@ -52,8 +54,14 @@ const App = () => {
           screenOptions={{
             headerShown: false,
           }}>
-          {/* <Stack.Screen name="Login" component={LoginScreen} />
-          <Stack.Screen name="Register" component={RegisterScreen} /> */}
+          <Stack.Screen name="Register" component={RegisterScreen} />
+          <Stack.Screen
+            name="ForgotPasswordScreen"
+            component={ForgotPasswordScreen}
+          />
+          <Stack.Screen name="Vertification" component={VertificationScreen} />
+          <Stack.Screen name="Login" component={LoginScreen} />
+
           <Stack.Screen name="Drawer" component={DrawerNavigator} />
           <Stack.Screen name="Category" component={EventCategoryScreen} />
           <Stack.Screen name="Search" component={EventSearchScreen} />

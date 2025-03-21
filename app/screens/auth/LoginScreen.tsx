@@ -1,8 +1,8 @@
-import React, {useEffect, useState} from 'react';
-import {View, Switch, Text, Image} from 'react-native';
-import AsyncStorage from '@react-native-async-storage/async-storage';
-import {appColors} from '../../constants/appColors';
-import {Lock, Sms} from 'iconsax-react-native';
+import React, { useEffect, useState } from "react";
+import { View, Switch, Text, Image, Dimensions } from "react-native";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import { appColors } from "../../constants/appColors";
+import { Lock, Sms } from "iconsax-react-native";
 import {
   ContainerComponent,
   SectionComponent,
@@ -11,92 +11,97 @@ import {
   ButtonComponent,
   SpaceComponent,
   InputComponent,
-} from '../../components/index';
-import authenticationAPI from '../../apis/authApi/authenticationAPI';
-import SocialLogin from './Components/SocialLogin';
-import LoadingModal from '@/app/modals/LoadingModal';
+} from "@/app/components/index";
+import authenticationAPI from "../../apis/authApi/authenticationAPI";
+import SocialLogin from "./Components/SocialLogin";
+import LoadingModal from "@/app/modals/LoadingModal";
 
-const LoginScreen = ({navigation}: any) => {
-  const [useId, setUseId] = useState<string>('');
-  const [email, setEmail] = useState<string>('');
-  const [password, setPassword] = useState<string>('');
-  const [emailError, setEmailError] = useState<string>('');
-  const [passwordError, setPasswordError] = useState<string>('');
+const LoginScreen = ({ navigation }: any) => {
+  const [useId, setUseId] = useState<string>("");
+  const [email, setEmail] = useState<string>("");
+  const [password, setPassword] = useState<string>("");
+  const [emailError, setEmailError] = useState<string>("");
+  const [passwordError, setPasswordError] = useState<string>("");
   const [isRemember, setIsRemember] = useState<boolean>(false);
   const [isLoading, setIsLoading] = useState<boolean>(false);
 
-  // 🔹 Load email & password nếu "Remember Me" đã được bật
+  const handleEmailChange = (val: string) => {
+    const EMAIL_REGEX = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    setEmail(val);
+
+    // Kiểm tra email hợp lệ hay không
+    if (val === "") {
+      setEmailError("Email không được để trống.");
+    } else if (!EMAIL_REGEX.test(val)) {
+      setEmailError("Email không hợp lệ.");
+    } else {
+      setEmailError("");
+    }
+  };
+
+  const handlePassChange = (val: string) => {
+    setPassword(val);
+
+    // Kiểm tra email hợp lệ hay không
+    if (val === "") {
+      setPasswordError("Mật khẩu không được để trống.");
+    } else if (val.length <= 8 || val.length >= 32) {
+      setPasswordError("Mật khẩu phải có từ 8 - 32 ký tự.");
+    } else {
+      setPasswordError("");
+    }
+  };
+
+  // Lấy dữ liệu từ AsyncStorage khi mở app
   useEffect(() => {
-    const loadRememberedLogin = async () => {
+    const loadStoredData = async () => {
       try {
-        const savedEmail = await AsyncStorage.getItem('savedEmail');
-        const savedPassword = await AsyncStorage.getItem('savedPassword');
-        if (savedEmail && savedPassword) {
-          setEmail(savedEmail);
-          setPassword(savedPassword);
+        const storedEmail = await AsyncStorage.getItem("email");
+        const storedPassword = await AsyncStorage.getItem("password");
+        const storedRemember = await AsyncStorage.getItem("isRemember");
+
+        if (storedRemember === "true" && storedEmail && storedPassword) {
+          setEmail(storedEmail);
+          setPassword(storedPassword);
           setIsRemember(true);
         }
       } catch (error) {
-        console.log('❌ Lỗi khi tải thông tin đăng nhập đã lưu:', error);
+        console.log("Lỗi khi lấy dữ liệu:", error);
       }
     };
-    loadRememberedLogin();
+
+    loadStoredData();
   }, []);
 
-  const validateInputs = () => {
-    let isValid = true;
-    if (!email.trim()) {
-      setEmailError('Vui lòng nhập email');
-      isValid = false;
-    } else {
-      const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-      if (!emailRegex.test(email)) {
-        setEmailError('Email không hợp lệ');
-        isValid = false;
-      } else {
-        setEmailError('');
-      }
-    }
-
-    if (!password.trim()) {
-      setPasswordError('Vui lòng nhập mật khẩu');
-      isValid = false;
-    } else if (password.length < 6) {
-      setPasswordError('Mật khẩu phải có ít nhất 6 ký tự');
-      isValid = false;
-    } else {
-      setPasswordError('');
-    }
-    return isValid;
-  };
-
   const handleLogin = async () => {
-    if (!validateInputs()) return;
-
     setIsLoading(true);
-    const body = {email, password};
+    const body = { email, password };
     try {
       const res = await authenticationAPI.HandleAuthentication(
-        '/login',
+        "/login",
         body,
-        'post',
+        "post",
       );
 
       if (res.status === 200 || res.status === 201) {
         const userId = res.data.id;
+        const token = res.data.token;
         setUseId(userId);
-        await AsyncStorage.setItem('userId', userId);
+        await AsyncStorage.setItem("userId", userId);
+        await AsyncStorage.setItem("token", token);
 
-        // 🔹 Lưu email & password nếu "Remember Me" được bật
+        //  Chỉ lưu email & password nếu "Remember Me" được bật & đăng nhập thành công
         if (isRemember) {
-          await AsyncStorage.setItem('savedEmail', email);
-          await AsyncStorage.setItem('savedPassword', password);
+          await AsyncStorage.setItem("email", email);
+          await AsyncStorage.setItem("password", password);
+          await AsyncStorage.setItem("isRemember", "true");
         } else {
-          await AsyncStorage.removeItem('savedEmail');
-          await AsyncStorage.removeItem('savedPassword');
+          await AsyncStorage.removeItem("email");
+          await AsyncStorage.removeItem("password");
+          await AsyncStorage.setItem("isRemember", "false");
         }
 
-        navigation.navigate('Drawer');
+        navigation.navigate("Drawer");
       }
     } catch (e) {
       console.log(e);
@@ -105,17 +110,20 @@ const LoginScreen = ({navigation}: any) => {
     }
   };
 
-  if (isLoading) {
-    return <LoadingModal />;
-  }
+  // hàm đăng xuất
+  const handleLogout = async () => {
+    await AsyncStorage.removeItem("token");
+    await AsyncStorage.removeItem("userId");
+    navigation.navigate("Login");
+  };
 
   return (
     <ContainerComponent isImageBackground isScroll>
       <SectionComponent>
         <RowComponent>
           <Image
-            style={{width: 162, height: 114}}
-            source={require('../../../assets/images/icon-avatar.png')}
+            style={{ width: 162, height: 114 }}
+            source={require("@/assets/images/icon-avatar.png")}
           />
         </RowComponent>
         <TextComponent size={24} title text="Sign in" />
@@ -123,48 +131,51 @@ const LoginScreen = ({navigation}: any) => {
         <InputComponent
           value={email}
           placeholder="Email"
-          onChange={val => {
-            setEmail(val);
-            setEmailError('');
-          }}
+          onChange={handleEmailChange}
           allowClear
           affix={<Sms size={22} color={appColors.gray} />}
         />
-        {emailError ? <TextComponent color="red" text={emailError} /> : null}
+        {emailError ? (
+          <TextComponent text={emailError} size={14} color={"red"} />
+        ) : null}
         <InputComponent
           value={password}
           placeholder="Password"
-          onChange={val => {
-            setPassword(val);
-            setPasswordError('');
-          }}
+          onChange={handlePassChange}
           isPassword
           allowClear
           affix={<Lock size={22} color={appColors.gray} />}
         />
         {passwordError ? (
-          <TextComponent color="red" text={passwordError} />
+          <TextComponent text={passwordError} size={14} color={"red"} />
         ) : null}
         <RowComponent justify="space-between">
           <RowComponent onPress={() => setIsRemember(!isRemember)}>
             <Switch
-              trackColor={{true: appColors.primary}}
+              trackColor={{ true: appColors.primary }}
               thumbColor={appColors.white}
               value={isRemember}
-              onChange={() => setIsRemember(!isRemember)}
+              onChange={() => {
+                setIsRemember(!isRemember);
+              }}
             />
             <TextComponent text="Remember me" />
           </RowComponent>
           <ButtonComponent
             text="Forgot Password?"
-            onPress={() => navigation.navigate('ForgotPassword')}
+            onPress={() => navigation.navigate("ForgotPasswordScreen")}
             type="text"
           />
         </RowComponent>
       </SectionComponent>
       <SpaceComponent height={16} />
       <SectionComponent>
-        <ButtonComponent onPress={handleLogin} text="SIGN IN" type="primary" />
+        <ButtonComponent
+          onPress={handleLogin}
+          text="SIGN IN"
+          type="primary"
+          disable={!email || !password || !!emailError || !!passwordError}
+        />
       </SectionComponent>
       {/* <SocialLogin /> */}
       <SectionComponent>
@@ -173,7 +184,7 @@ const LoginScreen = ({navigation}: any) => {
           <ButtonComponent
             type="link"
             text=" Sign up"
-            onPress={() => navigation.navigate('Register')}
+            onPress={() => navigation.navigate("Register")}
           />
         </RowComponent>
       </SectionComponent>

@@ -196,6 +196,10 @@ const RegisterScreen = ({ navigation }: any) => {
             text="SIGN UP"
             type="primary"
             disable={
+              !username ||
+              !email ||
+              !password ||
+              !confirmPassword ||
               !!usernameError ||
               !!emailError ||
               !!passwordError ||
