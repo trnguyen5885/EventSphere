@@ -8,6 +8,7 @@ import ProfileHeader from "./app/screens/profile/ProfileHeader";
 import ProfileAboutScreen from "./app/screens/profile/ProfileAboutScreen";
 import AddEventInfo from "./app/screens/organizer/AddEventInfo";
 import CreateTicket from "./app/screens/organizer/CreateTicket";
+import Chart from "./app/screens/organizer/Chart";
 import {
   EventDetailScreen,
   TicketEventScreen,
@@ -50,7 +51,7 @@ const App = () => {
       <NavigationContainer>
         <Stack.Navigator
 
-          initialRouteName="CreateTicket" //man hinh mac dinh khi chay
+          initialRouteName="Chart" //man hinh mac dinh khi chay
           screenOptions={{
             headerShown: false,
           }}>
@@ -62,6 +63,7 @@ const App = () => {
           <Stack.Screen name="ProfileAbout" component={ProfileAboutScreen} />
           <Stack.Screen name="AddEventInfo" component={AddEventInfo} />
           <Stack.Screen name="CreateTicket" component={CreateTicket} />
+          <Stack.Screen name="Chart" component={Chart} />
   
           {/* <Stack.Screen name="Login" component={LoginScreen} />
           <Stack.Screen name="Register" component={RegisterScreen} /> */}
